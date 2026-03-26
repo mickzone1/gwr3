@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdUHK Guinness World Records Attempt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #082C56 0%, #0a3a6e 30%, #407692 70%, #082C56 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(193, 154, 59, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(64, 118, 146, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: rgba(8, 44, 86, 0.8);
+            border-radius: 20px;
+            border: 2px solid #C19A3B;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .gwr-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #C19A3B, #f4c84a);
+            color: #082C56;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(193, 154, 59, 0.4);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(180deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: #C19A3B;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .auth-form {
+            background: linear-gradient(135deg, rgba(8, 44, 86, 0.9), rgba(64, 118, 146, 0.8));
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(193, 154, 59, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .auth-form .btn {
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .auth-form h2 {
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #C19A3B;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid rgba(193, 154, 59, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C19A3B;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(193, 154, 59, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group input.valid {
+            border-color: #4ade80;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .form-group input.invalid {
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C19A3B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        .form-group select option {
+            background: #082C56;
+            color: #ffffff;
+        }
+
+        .phone-group {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 15px;
+            align-items: start;
+        }
+
+        /* Tablet - Medium screens */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .container {
+                max-width: 95%;
+            }
+
+            .video-container {
+                max-height: 60vh;
+            }
+
+            .lyrics-main {
+                font-size: 1.8rem;
+            }
+
+            .controls .btn {
+                padding: 22px 44px;
+                font-size: 1.25rem;
+                min-width: 180px;
+                max-width: 240px;
+            }
+        }
+
+        /* Mobile - Small screens */
+        @media (max-width: 768px) {
+            header {
+                padding: 25px 20px;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+                letter-spacing: 1px;
+            }
+
+            header p {
+                font-size: 0.85rem;
+            }
+
+            .gwr-badge {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+
+            .lyrics-main {
+                font-size: 1.4rem;
+            }
+
+            .lyrics-next {
+                font-size: 1rem;
+            }
+
+            .lyrics-container {
+                padding: 25px 20px;
+                min-height: 150px;
+            }
+
+            .countdown-overlay {
+                font-size: 5rem;
+            }
+
+            .auth-form {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .phone-group {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .language-selector {
+                flex-direction: row;
+                padding: 12px;
+                margin-bottom: 20px;
+            }
+
+            .language-option {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
+            .video-container {
+                max-height: 50vh;
+            }
+        }
+
+        /* Extra Small Mobile */
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            header p {
+                font-size: 0.75rem;
+            }
+
+            .lyrics-main {
+                font-size: 1.2rem;
+            }
+
+            .lyrics-next {
+                font-size: 0.9rem;
+            }
+
+            .countdown-overlay {
+                font-size: 4rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 14px 16px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Desktop - Large screens */
+        @media (min-width: 1441px) {
+            .container {
+                max-width: 1100px;
+            }
+
+            header h1 {
+                font-size: 3.2rem;
+            }
+
+            .lyrics-main {
+                font-size: 2.5rem;
+            }
+
+            .btn {
+                padding: 24px 48px;
+                font-size: 1.35rem;
+                min-height: 65px;
+            }
+
+            .controls .btn {
+                padding: 28px 56px;
+                font-size: 1.45rem;
+                min-width: 240px;
+                max-width: 320px;
+            }
+
+            .controls .btn .btn-icon {
+                font-size: 1.8rem;
+            }
+        }
+
+            .phone-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn {
+            padding: 22px 44px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            min-height: 60px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #C19A3B, #d4a942);
+            color: #082C56;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #407692, #5a8fa8);
+            color: #ffffff;
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #4ade80);
+            color: #ffffff;
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+        }
+
+        .btn-stop:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-drive {
+            background: linear-gradient(135deg, #082C56, #407692);
+            color: #ffffff;
+            border: 2px solid #C19A3B;
+        }
+
+        .recording-section {
+            display: none;
+        }
+
+        .recording-section.active {
+            display: block;
+        }
+
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 3px solid #C19A3B;
+            max-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(193, 154, 59, 0.2);
+        }
+
+        #webcamPreview {
+            max-width: 100%;
+            max-height: 70vh;
+            display: block;
+            object-fit: contain;
+        }
+
+        .countdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, rgba(8, 44, 86, 0.9), rgba(0, 0, 0, 0.95));
+            font-size: 10rem;
+            font-weight: 900;
+            color: #C19A3B;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            text-shadow: 0 0 40px rgba(193, 154, 59, 0.8), 0 0 80px rgba(193, 154, 59, 0.4);
+        }
+
+        .countdown-overlay.active {
+            opacity: 1;
+            animation: gwrPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes gwrPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .recording-indicator {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(8, 44, 86, 0.95), rgba(64, 118, 146, 0.9));
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 2px solid #C19A3B;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .recording-indicator.active {
+            opacity: 1;
+        }
+
+        .recording-dot {
+            width: 14px;
+            height: 14px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: blink 1s ease-in-out infinite;
+            box-shadow: 0 0 15px #ef4444;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .recording-timer {
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: #C19A3B;
+            letter-spacing: 1px;
+        }
+
+        .lyrics-container {
+            background: linear-gradient(135deg, rgba(8, 44, 86, 0.95), rgba(64, 118, 146, 0.9));
+            border-radius: 20px;
+            padding: 40px 35px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 2px solid rgba(193, 154, 59, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lyrics-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(193, 154, 59, 0.1) 0%, transparent 70%);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .lyrics-main {
+            font-size: 2.2rem;
+            text-align: center;
+            line-height: 1.6;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            min-height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .lyrics-main.active {
+            color: #C19A3B;
+            font-weight: 800;
+            text-shadow: 0 0 30px rgba(193, 154, 59, 0.8), 0 0 60px rgba(193, 154, 59, 0.4);
+            transform: scale(1.08);
+        }
+
+        .lyrics-next {
+            font-size: 1.3rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+            min-height: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .lyrics-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(193, 154, 59, 0.3);
+            border-radius: 0 0 18px 18px;
+            overflow: hidden;
+        }
+
+        .lyrics-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #C19A3B, #f4c84a);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+
+        .controls .btn {
+            padding: 24px 48px;
+            font-size: 1.35rem;
+            min-width: 200px;
+            flex: 1 1 auto;
+            max-width: 280px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .controls .btn .btn-icon {
+            font-size: 1.6rem;
+        }
+
+        .recording-section {
+            display: none;
+        }
+
+        .recording-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(193, 154, 59, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(193, 154, 59, 0.3);
+        }
+
+        .language-option {
+            flex: 1;
+            max-width: 200px;
+            padding: 14px 24px;
+            border: 2px solid rgba(193, 154, 59, 0.4);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            user-select: none;
+        }
+
+        .language-option.active {
+            background: linear-gradient(135deg, #C19A3B, #d4a942);
+            border-color: #C19A3B;
+            color: #082C56;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 18px 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            display: none;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 2px solid;
+        }
+
+        .status-message.success {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(74, 222, 128, 0.15));
+            border-color: #4ade80;
+            color: #4ade80;
+            display: block;
+            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.2);
+        }
+
+        .status-message.error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(248, 113, 113, 0.15));
+            border-color: #ef4444;
+            color: #fca5a5;
+            display: block;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+        }
+
+        .status-message.info {
+            background: linear-gradient(135deg, rgba(64, 118, 146, 0.3), rgba(90, 143, 168, 0.2));
+            border-color: #407692;
+            color: #93c5fd;
+            display: block;
+            box-shadow: 0 4px 20px rgba(64, 118, 146, 0.3);
+        }
+
+        /* Participant Counter */
+        .participant-counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            background: linear-gradient(135deg, rgba(193, 154, 59, 0.2), rgba(8, 44, 86, 0.85));
+            border: 2px solid rgba(193, 154, 59, 0.5);
+            border-radius: 16px;
+            padding: 25px 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(193, 154, 59, 0.15);
+        }
+
+        .counter-icon {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 0 10px rgba(193, 154, 59, 0.5));
+        }
+
+        .counter-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #C19A3B, #f4c84a, #C19A3B);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .counter-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .counter-label-zh {
+            font-size: 1rem;
+            color: #C19A3B;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .counter-label-en {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content.consent-modal {
+            background: linear-gradient(135deg, rgba(8, 44, 86, 0.98), rgba(64, 118, 146, 0.95));
+            border: 3px solid #C19A3B;
+            border-radius: 20px;
+            padding: 35px;
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(193, 154, 59, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(193, 154, 59, 0.5);
+        }
+
+        .modal-header h2 {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .modal-title-zh {
+            color: #C19A3B;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .modal-title-en {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(193, 154, 59, 0.2);
+            color: #C19A3B;
+        }
+
+        .consent-content {
+            margin: 20px 0;
+        }
+
+        .consent-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(193, 154, 59, 0.3);
+        }
+
+        .consent-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .consent-section h3 {
+            color: #C19A3B;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .consent-section h4 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .consent-text-bilingual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .consent-text-zh,
+        .consent-text-en {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .consent-text-zh p,
+        .consent-text-en p {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .consent-text-zh p {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .consent-text-en p {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .consent-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 25px;
+            background: rgba(193, 154, 59, 0.15);
+            border-radius: 12px;
+            border: 2px solid rgba(193, 154, 59, 0.4);
+            margin: 25px 0;
+        }
+
+        .consent-checkbox input[type="checkbox"] {
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 3px;
+            accent-color: #C19A3B;
+        }
+
+        .consent-checkbox label {
+            cursor: pointer;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .consent-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(193, 154, 59, 0.3);
+        }
+
+        .consent-actions .btn {
+            min-width: 200px;
+        }
+
+        .consent-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .consent-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .consent-content::-webkit-scrollbar-thumb {
+            background: #C19A3B;
+            border-radius: 4px;
+        }
+
+        .consent-content::-webkit-scrollbar-thumb:hover {
+            background: #d4a942;
+        }
+
+        /* Headphone Warning Modal */
+        .headphone-warning {
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .warning-icon {
+            font-size: 4rem;
+            margin: 20px 0;
+        }
+
+        .warning-list {
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .warning-item {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .warning-item.bad {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+        }
+
+        .warning-item.good {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid #4ade80;
+            color: #86efac;
+        }
+
+        .warning-item .icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .hidden-audio {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header-logo {
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: none;
+                max-width: 180px;
+                margin: 0 auto 15px auto;
+                display: block;
+            }
+
+            header {
+                padding-top: 20px;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+                letter-spacing: 1px;
+            }
+
+            header p {
+                font-size: 0.85rem;
+            }
+
+            .gwr-badge {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+
+            .participant-counter {
+                padding: 20px 25px;
+                gap: 15px;
+            }
+
+            .counter-icon {
+                font-size: 2.5rem;
+            }
+
+            .counter-number {
+                font-size: 2.5rem;
+            }
+
+            .counter-labels {
+                gap: 3px;
+            }
+
+            .counter-label-zh {
+                font-size: 0.9rem;
+            }
+
+            .counter-label-en {
+                font-size: 0.75rem;
+            }
+
+            .lyrics-text {
+                font-size: 1.4rem;
+            }
+
+            .countdown-overlay {
+                font-size: 6rem;
+            }
+
+            .auth-form {
+                padding: 25px 20px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 16px 24px;
+                font-size: 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+                padding: 0;
+            }
+
+            .controls .btn {
+                width: 100%;
+                max-width: none;
+                min-width: auto;
+                padding: 20px 36px;
+                font-size: 1.2rem;
+            }
+
+            /* Modal mobile responsive */
+            .modal-content.consent-modal {
+                padding: 25px 20px;
+                max-height: 95vh;
+            }
+
+            .modal-header h2 {
+                flex-direction: column;
+            }
+
+            .modal-title-zh {
+                font-size: 1.5rem;
+            }
+
+            .modal-title-en {
+                font-size: 1.1rem;
+            }
+
+            .close-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 2rem;
+            }
+
+            .consent-text-bilingual {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .consent-section h3 {
+                font-size: 1.2rem;
+            }
+
+            .consent-section h4 {
+                font-size: 1rem;
+            }
+
+            .consent-checkbox {
+                padding: 20px;
+            }
+
+            .consent-checkbox input[type="checkbox"] {
+                width: 22px;
+                height: 22px;
+            }
+
+            .consent-checkbox label {
+                font-size: 0.95rem;
+            }
+
+            .consent-actions {
+                flex-direction: column;
+            }
+
+            .consent-actions .btn {
+                width: 100%;
+                min-width: auto;
+            }
+
+            /* Headphone modal mobile */
+            .headphone-warning {
+                padding: 25px 20px;
+            }
+
+            .warning-icon {
+                font-size: 3rem;
+            }
+
+            .warning-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+
+            .warning-item .icon {
+                font-size: 1.5rem;
+            }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(193, 154, 59, 0.3);
+            border-radius: 50%;
+            border-top-color: #C19A3B;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="gwr-badge">Official Participation Tool</div>
+            <h1>🎤 Guinness World Records Attempt</h1>
+            <p>Most Instagram Videos Featuring Performances of the Same Song</p>
+        </header>
+
+        <div class="participant-counter" id="participantCounter">
+            <div class="counter-icon">🏆</div>
+            <div class="counter-content">
+                <div class="counter-number" id="participantCount">0</div>
+            </div>
+            <div class="counter-labels">
+                <div class="counter-label-zh">位參與者已加入</div>
+                <div class="counter-label-en">Participants Joined</div>
+            </div>
+        </div>
+
+        <section class="auth-form" id="authSection">
+            <h2>🏆 Participant Registration</h2>
+            <form id="userForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="familyName">Family Name</label>
+                        <input 
+                            type="text" 
+                            id="familyName" 
+                            placeholder="Surname"
+                            required
+                            minlength="1"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            placeholder="Given name"
+                            required
+                            minlength="1"
+                        >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="userEmail" 
+                        placeholder="your.email@example.com"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="whatsappTel">WhatsApp Number</label>
+                    <div class="phone-group">
+                        <select id="countryCode" required>
+                            <option value="">🌍 Code</option>
+                            <option value="+86">🇨🇳 +86 (China)</option>
+                            <option value="+852" selected>🇭🇰 +852 (HK)</option>
+                            <option value="+886">🇹🇼 +886 (Taiwan)</option>
+                            <option value="+65">🇸🇬 +65 (Singapore)</option>
+                            <option value="+60">🇲🇾 +60 (Malaysia)</option>
+                            <option value="+81">🇯🇵 +81 (Japan)</option>
+                            <option value="+82">🇰🇷 +82 (Korea)</option>
+                            <option value="+66">🇹🇭 +66 (Thailand)</option>
+                            <option value="+63">🇵🇭 +63 (Philippines)</option>
+                            <option value="+62">🇮🇩 +62 (Indonesia)</option>
+                            <option value="+61">🇦🇺 +61 (Australia)</option>
+                            <option value="+64">🇳🇿 +64 (New Zealand)</option>
+                            <option value="+44">🇬 +44 (UK)</option>
+                            <option value="+1">🇺🇸 +1 (USA/Canada)</option>
+                            <option value="+33">🇫🇷 +33 (France)</option>
+                            <option value="+49">🇩🇪 +49 (Germany)</option>
+                            <option value="+39">🇮🇹 +39 (Italy)</option>
+                            <option value="+34">🇪🇸 +34 (Spain)</option>
+                            <option value="+31">🇳🇱 +31 (Netherlands)</option>
+                            <option value="+46">🇸🇪 +46 (Sweden)</option>
+                            <option value="+47">🇳🇴 +47 (Norway)</option>
+                            <option value="+45">🇩🇰 +45 (Denmark)</option>
+                            <option value="+7">🇷🇺 +7 (Russia)</option>
+                            <option value="+91">🇮🇳 +91 (India)</option>
+                            <option value="+971">🇦🇪 +971 (UAE)</option>
+                            <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
+                            <option value="+27">🇿🇦 +27 (South Africa)</option>
+                            <option value="+234">🇳🇬 +234 (Nigeria)</option>
+                            <option value="+254">🇰🇪 +254 (Kenya)</option>
+                            <option value="+20">🇪 +20 (Egypt)</option>
+                            <option value="+55">🇧🇷 +55 (Brazil)</option>
+                            <option value="+52">🇲🇽 +52 (Mexico)</option>
+                            <option value="+54">🇦🇷 +54 (Argentina)</option>
+                            <option value="+56">🇨🇱 +56 (Chile)</option>
+                            <option value="+57">🇨🇴 +57 (Colombia)</option>
+                            <option value="+48">🇵🇱 +48 (Poland)</option>
+                            <option value="+90">🇹 +90 (Turkey)</option>
+                            <option value="+30">🇬 +30 (Greece)</option>
+                            <option value="+351">🇵🇹 +351 (Portugal)</option>
+                            <option value="+32">🇧🇪 +32 (Belgium)</option>
+                            <option value="+41">🇨 +41 (Switzerland)</option>
+                            <option value="+43">🇦🇹 +43 (Austria)</option>
+                            <option value="+420">🇨🇿 +420 (Czech Republic)</option>
+                            <option value="+36">🇭🇺 +36 (Hungary)</option>
+                            <option value="+40">🇷🇴 +40 (Romania)</option>
+                            <option value="+380">🇺🇦 +380 (Ukraine)</option>
+                            <option value="+972">🇮🇱 +972 (Israel)</option>
+                            <option value="+965">🇰🇼 +965 (Kuwait)</option>
+                            <option value="+974">🇶🇦 +974 (Qatar)</option>
+                            <option value="+968">🇴🇲 +968 (Oman)</option>
+                            <option value="+973">🇧🇭 +973 (Bahrain)</option>
+                            <option value="+962">🇯🇴 +962 (Jordan)</option>
+                            <option value="+961">🇱🇧 +961 (Lebanon)</option>
+                            <option value="+98">🇮🇷 +98 (Iran)</option>
+                            <option value="+92">🇵🇰 +92 (Pakistan)</option>
+                            <option value="+880">🇧🇩 +880 (Bangladesh)</option>
+                            <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
+                            <option value="+95">🇲🇲 +95 (Myanmar)</option>
+                            <option value="+84">🇻🇳 +84 (Vietnam)</option>
+                            <option value="+856">🇱🇦 +856 (Laos)</option>
+                            <option value="+855">🇰🇭 +855 (Cambodia)</option>
+                            <option value="+673">🇧🇳 +673 (Brunei)</option>
+                            <option value="+679">🇫🇯 +679 (Fiji)</option>
+                            <option value="+675">🇵🇬 +675 (Papua New Guinea)</option>
+                            <option value="+685">🇼🇸 +685 (Samoa)</option>
+                            <option value="+676">🇹🇴 +676 (Tonga)</option>
+                        </select>
+                        <input 
+                            type="tel" 
+                            id="whatsappTel" 
+                            placeholder="1234 5678"
+                            required
+                            pattern="[0-9]{6,15}"
+                            title="Please enter a valid phone number (6-15 digits)"
+                        >
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="startBtn" disabled>
+                    Next
+                </button>
+            </form>
+        </section>
+
+        <section class="recording-section" id="recordingSection">
+            <div class="video-container">
+                <video id="webcamPreview" autoplay playsinline muted></video>
+                <div class="countdown-overlay" id="countdownOverlay"></div>
+                <div class="recording-indicator" id="recordingIndicator">
+                    <div class="recording-dot"></div>
+                    <span class="recording-timer" id="recordingTimer">00:00</span>
+                </div>
+            </div>
+
+            <div class="language-selector">
+                <div class="language-option active" data-lang="chinese" onclick="window.karaokeApp.selectLanguage('chinese')">
+                    中文歌詞
+                </div>
+                <div class="language-option" data-lang="english" onclick="window.karaokeApp.selectLanguage('english')">
+                    Cantonese Pinyin
+                </div>
+            </div>
+
+            <div class="lyrics-container">
+                <div class="lyrics-main" id="lyricsMain"></div>
+                <div class="lyrics-next" id="lyricsNext"></div>
+                <div class="lyrics-progress">
+                    <div class="lyrics-progress-bar" id="lyricsProgressBar"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" id="recordBtn">
+                    🎬 Record
+                </button>
+                <button class="btn btn-stop" id="stopBtn" disabled>
+                    ⏹ Stop
+                </button>
+                <button class="btn btn-success" id="downloadBtn" disabled>
+                    ⬇ Download Video
+                </button>
+                <button class="btn btn-drive" id="uploadBtn" disabled>
+                    ☁ Upload to SharePoint
+                </button>
+            </div>
+
+            <div class="status-message" id="statusMessage"></div>
+        </section>
+
+        <!-- Consent Modal -->
+        <div class="modal" id="consentModal">
+            <div class="modal-content consent-modal">
+                <div class="modal-header">
+                    <h2>
+                        <span class="modal-title-zh">條款及細則</span>
+                        <span class="modal-title-en">Terms & Conditions</span>
+                    </h2>
+                    <button class="close-btn" onclick="closeConsentModal()">&times;</button>
+                </div>
+                
+                <div class="consent-content">
+                    <div class="consent-section">
+                        <h3>有關使用個人影像及個人資料的條款</h3>
+                        <h4>Terms on the Use of Personal Images and Personal Data</h4>
+                        
+                        <div class="consent-text-bilingual">
+                            <div class="consent-text-zh">
+                                <p>活動進行期間收集的個人數據資料只供學術研究及報告紀錄之用。</p>
+                                <p>活動的所有照片、影片或參加者肖像，均有可能出現在任何正式的紀錄片段、報告，以及一切多媒體平台中，並以不同的形式發佈，而不會提供任何酬勞。本活動之影片、影像及紀錄，本校及本計劃均有絕對使用權。</p>
+                                <p>香港教育大學（本校）有權使用、複製、展示、顯示、廣播及/或分發本人之影像（包括本校或其承判商或代理就參加者型像、姿態、動作、外觀的攝取或製造的照片或影片或其他紀錄或就參加者聲音之記錄）（下稱「該影像」）。該影像將經任何現有或將來開發的媒體作有關於宣傳、推廣及/或報導該活動、本計劃及/或本校及本中心的用途（可能包括任何印刷或電子出版物或廣告、研究報告或演說的材料、互聯網、社交網絡媒體、報刊、電視或電台廣播）。</p>
+                                <p>該影像的版權及其他知識產權屬本校所有。</p>
+                            </div>
+                            
+                            <div class="consent-text-en">
+                                <p>Personal data collected during the event will be used solely for the purposes of the event, academic research, and record-keeping and reporting.</p>
+                                <p>All photographs, videos, or portraits of participants taken in connection with the event may appear in official records, reports, and on any multimedia platforms, and may be published in various formats without payment or other compensation. The University and this programme shall have the unrestricted right to use the recordings, images, and documentation produced in connection with the event.</p>
+                                <p>The Education University of Hong Kong (the "University") is entitled to use, reproduce, exhibit, display, broadcast, and/or distribute my image (including photographs, videos or other recordings of my likeness, posture, movement or appearance, or recordings of my voice, whether made by the University or its contractors or agents) (the "Image"). The Image may be used in any existing or future media for the purposes of promoting, publicising and/or reporting on the event, the programme, and/or the University and its centres. Such use may include, but is not limited to, printed or electronic publications or advertisements, research reports or presentation materials, the Internet, social networking media, newspapers, television, and radio broadcasts.</p>
+                                <p>Copyright and all other intellectual property rights in the Image shall belong to the University.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="consent-section">
+                        <h3>個人資料收集聲明</h3>
+                        <h4>Personal Data Collection Statement</h4>
+                        
+                        <div class="consent-text-bilingual">
+                            <div class="consent-text-zh">
+                                <p>此表格內收集所有個人資料，僅供本計劃之用。根據《個人資料（私隱）條例》，舉辦單位不會在未經閣下授權的情況下，向第三方提供相關資料作傳銷或其他用途。您有權要求查閱並更正所提交的個人資料。如果您希望查閱或更正您的個人資料，請聯絡文化與創意藝術學系（電話：2948 8486；電郵：flet@eduhk.hk）。有關香港教育大學私隱政策聲明，請瀏覽以下網址：http://www.eduhk.hk/main/privacy-policy/</p>
+                            </div>
+                            
+                            <div class="consent-text-en">
+                                <p>All personal data collected on this form will be used solely for the purposes of this programme. In accordance with the Personal Data (Privacy) Ordinance, the organiser will not disclose such information to third parties for direct marketing or other purposes without your consent. You have the right to request access to and correction of the personal data you have submitted. If you wish to access or correct your personal data, please contact the Department of Cultural and Creative Arts (Tel: 2948 8486; Email: flet@eduhk.hk). For The Education University of Hong Kong's privacy policy statement, please visit: http://www.eduhk.hk/main/privacy-policy/</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="consent-checkbox">
+                    <input type="checkbox" id="consentCheck" required>
+                    <label for="consentCheck">
+                        <strong>我已閱讀並同意以上條款 / I have read and agree to the Terms and Conditions</strong>
+                    </label>
+                </div>
+                
+                <div class="consent-actions">
+                    <button class="btn btn-secondary" onclick="closeConsentModal()">取消 Cancel</button>
+                    <button class="btn btn-primary" id="confirmUploadBtn" disabled onclick="confirmAndUpload()">
+                        ✓ 同意並上傳 / I Agree & Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Headphone Warning Modal -->
+        <div class="modal" id="headphoneModal">
+            <div class="modal-content headphone-warning">
+                <div class="modal-header">
+                    <h2>
+                        <span class="modal-title-zh">⚠️ 重要提示：請戴上耳機！</span>
+                        <span class="modal-title-en">⚠️ Important: Wear Headphones!</span>
+                    </h2>
+                </div>
+                <div class="modal-body">
+                    <div class="warning-icon">🎧</div>
+                    <p><strong>請在錄音期間戴上耳機或耳塞，以防止聲音回授並確保錄音質素。</strong></p>
+                    <p><strong>Please wear headphones or earphones during recording to prevent audio feedback and ensure clean recording quality.</strong></p>
+                    
+                    <div class="warning-list">
+                        <div class="warning-item bad">
+                            <span class="icon">❌</span>
+                            <span>
+                                <strong>沒有戴耳機 / Without headphones:</strong><br>
+                                音樂會被麥克風拾取 = 回聲/失真<br>
+                                Music picked up by microphone = echo/distortion
+                            </span>
+                        </div>
+                        <div class="warning-item good">
+                            <span class="icon">✅</span>
+                            <span>
+                                <strong>戴上耳機 / With headphones:</strong><br>
+                                乾淨錄音、無回授、專業質素<br>
+                                Clean audio, no feedback, professional quality
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="headphoneAcknowledgeBtn">
+                        我知道了，繼續 / I Understand, Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="backgroundAudio" class="hidden-audio" preload="auto">
+        <source src="./assets/karaoke-track.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const CONFIG = {
+            COUNTDOWN_SECONDS: 3,
+            API_BASE_URL: 'https://eduhk-gwr-api.azurewebsites.net',
+            // API_BASE_URL: 'http://localhost:3000',  // For local testing
+            AUDIO_FILE_PATH: './assets/karaoke-track.mp3'
+        };
+
+        const LYRICS_CHINESE = [
+            { time: 0, text: "良師啊" },
+            { time: 6750, text: "是您一顆" },
+            { time: 13500, text: "愛心關懷" },
+            { time: 20250, text: "燃亮了我" }
+        ];
+
+        const LYRICS_ENGLISH = [
+            { time: 0, text: "loeng si aa" },
+            { time: 6750, text: "si nei jat fo" },
+            { time: 13500, text: "oi sam gwaan waai" },
+            { time: 20250, text: "jin loeng liu ngo" }
+        ];
+
+        let LYRICS = LYRICS_CHINESE;
+
+        class KaraokeApp {
+            constructor() {
+                this.familyName = '';
+                this.firstName = '';
+                this.userEmail = '';
+                this.countryCode = '';
+                this.whatsappTel = '';
+                this.currentLanguage = 'chinese';
+                this.participantCount = 0;
+                this.webcamStream = null;
+                this.mediaRecorder = null;
+                this.recordedChunks = [];
+                this.videoBlob = null;
+                this.lyricsTimeout = null;
+                this.recordingStartTime = null;
+                this.timerInterval = null;
+                
+                // Create AudioContext once for reuse (fixes InvalidStateError)
+                this.audioContext = null;
+                this.musicSource = null;
+
+                this.elements = {
+                    familyName: document.getElementById('familyName'),
+                    firstName: document.getElementById('firstName'),
+                    userEmail: document.getElementById('userEmail'),
+                    countryCode: document.getElementById('countryCode'),
+                    whatsappTel: document.getElementById('whatsappTel'),
+                    userForm: document.getElementById('userForm'),
+                    startBtn: document.getElementById('startBtn'),
+                    authSection: document.getElementById('authSection'),
+                    recordingSection: document.getElementById('recordingSection'),
+                    webcamPreview: document.getElementById('webcamPreview'),
+                    countdownOverlay: document.getElementById('countdownOverlay'),
+                    recordingIndicator: document.getElementById('recordingIndicator'),
+                    recordingTimer: document.getElementById('recordingTimer'),
+                    lyricsMain: document.getElementById('lyricsMain'),
+                    lyricsNext: document.getElementById('lyricsNext'),
+                    lyricsProgressBar: document.getElementById('lyricsProgressBar'),
+                    recordBtn: document.getElementById('recordBtn'),
+                    stopBtn: document.getElementById('stopBtn'),
+                    downloadBtn: document.getElementById('downloadBtn'),
+                    uploadBtn: document.getElementById('uploadBtn'),
+                    participantCount: document.getElementById('participantCount'),
+                    participantCounter: document.getElementById('participantCounter'),
+                    backgroundAudio: document.getElementById('backgroundAudio'),
+                    statusMessage: document.getElementById('statusMessage')
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.attachEventListeners();
+                this.validateForm();
+                
+                // Initialize AudioContext once (fixes InvalidStateError)
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (error) {
+                    console.error('AudioContext not supported:', error);
+                }
+                
+                // Set participant count to 0 (backend not deployed)
+                if (this.elements.participantCount) {
+                    this.elements.participantCount.textContent = '0';
+                }
+            }
+
+            attachEventListeners() {
+                this.elements.familyName.addEventListener('input', () => this.validateForm());
+                this.elements.firstName.addEventListener('input', () => this.validateForm());
+                this.elements.userEmail.addEventListener('input', () => this.validateForm());
+                this.elements.countryCode.addEventListener('change', () => this.validateForm());
+                this.elements.whatsappTel.addEventListener('input', () => this.validateForm());
+                this.elements.userForm.addEventListener('submit', (e) => this.handleFormSubmit(e));
+                this.elements.recordBtn.addEventListener('click', () => this.showHeadphoneWarning());
+                this.elements.stopBtn.addEventListener('click', () => this.stopRecording());
+                this.elements.downloadBtn.addEventListener('click', () => this.downloadVideo());
+                this.elements.uploadBtn.addEventListener('click', () => this.showConsentModal());
+                this.elements.backgroundAudio.addEventListener('ended', () => this.stopRecording());
+                
+                // Setup headphone modal acknowledge button
+                const headphoneBtn = document.getElementById('headphoneAcknowledgeBtn');
+                if (headphoneBtn) {
+                    headphoneBtn.addEventListener('click', () => {
+                        document.getElementById('headphoneModal').classList.remove('active');
+                        this.proceedWithRecording();
+                    });
+                }
+            }
+
+            async fetchParticipantCount() {
+                try {
+                    const response = await fetch(`${CONFIG.API_BASE_URL}/api/participants/count`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.participantCount = result.count;
+                        this.animateCounter();
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch participant count:', error);
+                }
+            }
+
+            animateCounter() {
+                const element = this.elements.participantCount;
+                const target = this.participantCount;
+                const duration = 2000;
+                const start = 0;
+                const increment = target / (duration / 16);
+                let current = start;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }, 16);
+            }
+
+            showConsentModal() {
+                if (!this.videoBlob) {
+                    this.showStatus('No video available. Please record first.', 'error');
+                    return;
+                }
+                
+                const modal = document.getElementById('consentModal');
+                modal.classList.add('active');
+                
+                const checkbox = document.getElementById('consentCheck');
+                const confirmBtn = document.getElementById('confirmUploadBtn');
+                
+                checkbox.checked = false;
+                confirmBtn.disabled = true;
+                
+                checkbox.addEventListener('change', () => {
+                    confirmBtn.disabled = !checkbox.checked;
+                });
+            }
+
+            validateForm() {
+                const familyName = this.elements.familyName.value.trim();
+                const firstName = this.elements.firstName.value.trim();
+                const email = this.elements.userEmail.value.trim();
+                const countryCode = this.elements.countryCode.value;
+                const whatsappTel = this.elements.whatsappTel.value.trim().replace(/\D/g, '');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^[0-9]{6,15}$/;
+
+                this.elements.familyName.classList.remove('valid', 'invalid');
+                this.elements.firstName.classList.remove('valid', 'invalid');
+                this.elements.userEmail.classList.remove('valid', 'invalid');
+                this.elements.whatsappTel.classList.remove('valid', 'invalid');
+
+                let familyNameValid = familyName.length >= 1;
+                let firstNameValid = firstName.length >= 1;
+                let emailValid = emailRegex.test(email);
+                let countryCodeValid = countryCode.length > 0;
+                let phoneValid = phoneRegex.test(whatsappTel);
+
+                if (familyName.length > 0) {
+                    this.elements.familyName.classList.add(familyNameValid ? 'valid' : 'invalid');
+                }
+                if (firstName.length > 0) {
+                    this.elements.firstName.classList.add(firstNameValid ? 'valid' : 'invalid');
+                }
+                if (email.length > 0) {
+                    this.elements.userEmail.classList.add(emailValid ? 'valid' : 'invalid');
+                }
+                if (whatsappTel.length > 0) {
+                    this.elements.whatsappTel.classList.add(phoneValid ? 'valid' : 'invalid');
+                }
+
+                const allValid = familyNameValid && firstNameValid && emailValid && countryCodeValid && phoneValid;
+                this.elements.startBtn.disabled = !allValid;
+            }
+
+            async handleFormSubmit(e) {
+                e.preventDefault();
+                
+                this.familyName = this.elements.familyName.value.trim();
+                this.firstName = this.elements.firstName.value.trim();
+                this.userEmail = this.elements.userEmail.value.trim();
+                this.countryCode = this.elements.countryCode.value;
+                this.whatsappTel = this.elements.whatsappTel.value.trim().replace(/\D/g, '');
+
+                this.showStatus('Requesting camera access...', 'info');
+
+                try {
+                    await this.initializeWebcam();
+                    this.elements.authSection.style.display = 'none';
+                    this.elements.recordingSection.classList.add('active');
+                    this.showStatus('Camera ready! Click "Record" to start.', 'success');
+                } catch (error) {
+                    this.showStatus(`Camera error: ${error.message}`, 'error');
+                }
+            }
+
+            async initializeWebcam() {
+                try {
+                    this.webcamStream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            width: { ideal: 1080 },
+                            height: { ideal: 1920 },
+                            facingMode: 'user',
+                            aspectRatio: { ideal: 9 / 16 }
+                        },
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            sampleRate: 44100
+                        }
+                    });
+
+                    this.elements.webcamPreview.srcObject = this.webcamStream;
+                    return new Promise((resolve) => {
+                        this.elements.webcamPreview.onloadedmetadata = () => {
+                            this.elements.webcamPreview.style.transform = 'scaleX(-1)';
+                            this.elements.webcamPreview.style.width = '100%';
+                            this.elements.webcamPreview.style.height = 'auto';
+                            resolve();
+                        };
+                    });
+                } catch (error) {
+                    throw new Error(`Unable to access camera: ${error.message}`);
+                }
+            }
+
+            showHeadphoneWarning() {
+                const modal = document.getElementById('headphoneModal');
+                modal.classList.add('active');
+            }
+
+            proceedWithRecording() {
+                this.startRecording();
+            }
+
+            async startRecording() {
+                this.elements.recordBtn.disabled = true;
+                this.elements.stopBtn.disabled = false;
+                this.recordedChunks = [];
+                this.videoBlob = null;
+                this.elements.downloadBtn.disabled = true;
+                this.elements.uploadBtn.disabled = true;
+                this.elements.lyricsProgressBar.style.width = '0%';
+
+                // Check if AudioContext is available
+                if (!this.audioContext) {
+                    this.showStatus('Audio not supported in this browser. Please use Chrome.', 'error');
+                    return;
+                }
+
+                // Ensure audio is loaded before recording
+                if (this.elements.backgroundAudio.readyState < 2) {
+                    this.showStatus('Loading audio...', 'info');
+                    await new Promise((resolve) => {
+                        this.elements.backgroundAudio.addEventListener('canplay', resolve, { once: true });
+                    });
+                }
+
+                await this.runCountdown();
+                this.startMediaRecording();
+                this.playBackgroundAudio();
+                this.startLyricsDisplay();
+                this.startRecordingTimer();
+                
+                this.showStatus('Recording in progress...', 'info');
+            }
+
+            runCountdown() {
+                return new Promise((resolve) => {
+                    let count = CONFIG.COUNTDOWN_SECONDS;
+                    this.elements.countdownOverlay.textContent = count;
+                    this.elements.countdownOverlay.classList.add('active');
+
+                    const countdownInterval = setInterval(() => {
+                        count--;
+                        if (count > 0) {
+                            this.elements.countdownOverlay.textContent = count;
+                        } else {
+                            clearInterval(countdownInterval);
+                            this.elements.countdownOverlay.textContent = 'GO!';
+                            setTimeout(() => {
+                                this.elements.countdownOverlay.classList.remove('active');
+                                resolve();
+                            }, 500);
+                        }
+                    }, 1000);
+                });
+            }
+
+            startMediaRecording() {
+                // Reuse existing AudioContext (created once in constructor)
+                const audioContext = this.audioContext;
+                
+                // Resume audio context if suspended (browser requirement)
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                
+                // Create destination node for MediaRecorder
+                const dest = audioContext.createMediaStreamDestination();
+                
+                // Create MediaElementSource only once (fixes InvalidStateError)
+                if (!this.musicSource) {
+                    this.musicSource = audioContext.createMediaElementSource(
+                        this.elements.backgroundAudio
+                    );
+                }
+                
+                // Capture microphone from webcam stream
+                const micSource = audioContext.createMediaStreamSource(
+                    this.webcamStream
+                );
+                
+                // Create gain nodes for volume control
+                const musicGainRecord = audioContext.createGain();
+                musicGainRecord.gain.value = 0.5;  // Music for recording (50%)
+                
+                const musicGainSpeakers = audioContext.createGain();
+                musicGainSpeakers.gain.value = 0.7;  // Music for speakers (70%)
+                
+                const micGain = audioContext.createGain();
+                micGain.gain.value = 1.0;    // Voice at 100% volume
+                
+                // Connect music to BOTH recorder AND speakers
+                // Path 1: Music → Gain → MediaRecorder (for video capture)
+                this.musicSource.connect(musicGainRecord).connect(dest);
+                
+                // Path 2: Music → Gain → Speakers (so user can hear)
+                this.musicSource.connect(musicGainSpeakers).connect(audioContext.destination);
+                
+                // Connect microphone to recorder
+                micSource.connect(micGain).connect(dest);
+                
+                // Create combined stream with video + mixed audio
+                const combinedStream = new MediaStream([
+                    ...this.webcamStream.getVideoTracks(),
+                    ...dest.stream.getAudioTracks()
+                ]);
+
+                const supportedMimeType = this.getSupportedMimeType();
+                this.currentMimeType = supportedMimeType;
+                
+                this.mediaRecorder = new MediaRecorder(combinedStream, {
+                    mimeType: supportedMimeType,
+                    videoBitsPerSecond: 8000000
+                });
+
+                this.recordedChunks = [];
+
+                this.mediaRecorder.ondataavailable = (event) => {
+                    if (event.data && event.data.size > 0) {
+                        this.recordedChunks.push(event.data);
+                    }
+                };
+
+                this.mediaRecorder.onstop = () => {
+                    console.log('MediaRecorder stopped. Chunks collected:', this.recordedChunks.length);
+                    
+                    setTimeout(() => {
+                        if (this.recordedChunks.length > 0) {
+                            const totalSize = this.recordedChunks.reduce((acc, chunk) => acc + chunk.size, 0);
+                            console.log('Total video size:', totalSize, 'bytes');
+                            
+                            this.videoBlob = new Blob(this.recordedChunks, {
+                                type: supportedMimeType || 'video/webm'
+                            });
+                            this.elements.downloadBtn.disabled = false;
+                            this.elements.uploadBtn.disabled = false;
+                            this.elements.lyricsMain.textContent = '';
+                            this.elements.lyricsNext.textContent = '';
+                            this.showStatus('🎉 Performance recorded! Download or upload to SharePoint.', 'success');
+                        } else {
+                            this.showStatus('No video data recorded. Please try again.', 'error');
+                            this.elements.lyricsMain.textContent = '';
+                            this.elements.lyricsNext.textContent = '';
+                        }
+                    }, 500);
+                };
+
+                this.mediaRecorder.onerror = (event) => {
+                    console.error('MediaRecorder error:', event.error);
+                    this.showStatus('Recording error: ' + event.error.name, 'error');
+                };
+
+                this.mediaRecorder.start(250);
+            }
+
+            getSupportedMimeType() {
+                const types = [
+                    'video/mp4',
+                    'video/x-m4v',
+                    'video/webm;codecs=h264,opus',
+                    'video/webm;codecs=vp9,opus',
+                    'video/webm;codecs=vp8,opus',
+                    'video/webm'
+                ];
+                
+                for (const type of types) {
+                    if (MediaRecorder.isTypeSupported(type)) {
+                        console.log('Using MIME type:', type);
+                        return type;
+                    }
+                }
+                console.log('No specific MIME type supported, using default');
+                return '';
+            }
+
+            // Check if browser supports audio mixing
+            supportsAudioMixing() {
+                return !!(this.audioContext && (window.AudioContext || window.webkitAudioContext));
+            }
+
+            async playBackgroundAudio() {
+                try {
+                    // Ensure audio is loaded
+                    if (this.elements.backgroundAudio.readyState < 2) {
+                        await new Promise((resolve) => {
+                            this.elements.backgroundAudio.addEventListener('canplay', resolve, { once: true });
+                        });
+                    }
+                    
+                    // Reset and play audio
+                    this.elements.backgroundAudio.currentTime = 0;
+                    this.elements.backgroundAudio.volume = 1.0;
+                    
+                    // Resume AudioContext if suspended (browser requirement)
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        await this.audioContext.resume();
+                    }
+                    
+                    const playPromise = this.elements.backgroundAudio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch((error) => {
+                            console.error('Audio playback failed:', error);
+                            this.showStatus('Audio playback failed. Please allow autoplay and try again.', 'error');
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error playing audio:', error);
+                }
+            }
+
+            startLyricsDisplay() {
+                const totalDuration = LYRICS[LYRICS.length - 1].time;
+
+                const displayLyric = (index) => {
+                    if (index >= LYRICS.length) {
+                        this.elements.lyricsMain.textContent = '';
+                        this.elements.lyricsMain.classList.remove('active');
+                        this.elements.lyricsNext.textContent = '';
+                        return;
+                    }
+
+                    const lyric = LYRICS[index];
+                    
+                    if (lyric.text) {
+                        this.elements.lyricsMain.textContent = lyric.text;
+                        this.elements.lyricsMain.classList.add('active');
+                        setTimeout(() => {
+                            this.elements.lyricsMain.classList.remove('active');
+                        }, 1500);
+                    } else {
+                        this.elements.lyricsMain.textContent = '';
+                    }
+
+                    this.updateLyricsProgress(lyric.time, totalDuration);
+
+                    if (index < LYRICS.length - 1) {
+                        const nextDelay = LYRICS[index + 1].time - lyric.time;
+                        this.lyricsTimeout = setTimeout(() => displayLyric(index + 1), nextDelay);
+                    }
+                };
+
+                displayLyric(0);
+            }
+
+            updateLyricsProgress(currentTime, totalTime) {
+                const progress = (currentTime / totalTime) * 100;
+                this.elements.lyricsProgressBar.style.width = `${Math.min(progress, 100)}%`;
+            }
+
+            startRecordingTimer() {
+                this.recordingStartTime = Date.now();
+                this.elements.recordingIndicator.classList.add('active');
+
+                this.timerInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - this.recordingStartTime) / 1000);
+                    const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                    const seconds = (elapsed % 60).toString().padStart(2, '0');
+                    this.elements.recordingTimer.textContent = `${minutes}:${seconds}`;
+                }, 1000);
+            }
+
+            stopRecording() {
+                if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
+                    this.mediaRecorder.stop();
+                    this.elements.stopBtn.disabled = true;
+                }
+
+                if (this.lyricsTimeout) {
+                    clearTimeout(this.lyricsTimeout);
+                }
+
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                }
+
+                this.elements.backgroundAudio.pause();
+                this.elements.backgroundAudio.currentTime = 0;
+                this.elements.recordingIndicator.classList.remove('active');
+                this.elements.recordBtn.disabled = false;
+                this.elements.lyricsProgressBar.style.width = '100%';
+                this.elements.lyricsMain.textContent = '';
+                this.elements.lyricsNext.textContent = '';
+            }
+
+            downloadVideo() {
+                if (!this.videoBlob) {
+                    this.showStatus('No video available. Please record first.', 'error');
+                    return;
+                }
+
+                try {
+                    const extension = this.getFileExtension();
+                    const timestamp = this.getRecordingTimestamp();
+                    
+                    // Create filename from email + recording time
+                    const emailSafe = this.userEmail.replace(/[^a-zA-Z0-9@.]/g, '');
+                    const filename = `${emailSafe}${timestamp}.${extension}`;
+                    
+                    const url = URL.createObjectURL(this.videoBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    
+                    setTimeout(() => {
+                        URL.revokeObjectURL(url);
+                    }, 100);
+
+                    this.showStatus(`Video downloaded as ${filename}`, 'success');
+                } catch (error) {
+                    console.error('Download error:', error);
+                    this.showStatus('Download failed: ' + error.message, 'error');
+                }
+            }
+
+            getRecordingTimestamp() {
+                if (!this.recordingStartTime) {
+                    return Date.now().toString();
+                }
+                const date = new Date(this.recordingStartTime);
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                return `${hours}${minutes}`;
+            }
+
+            getFullPhoneNumber() {
+                return `${this.countryCode}${this.whatsappTel}`;
+            }
+
+            getFileExtension() {
+                if (!this.currentMimeType) return 'webm';
+                if (this.currentMimeType.includes('mp4') || this.currentMimeType.includes('m4v')) return 'mp4';
+                if (this.currentMimeType.includes('webm')) return 'webm';
+                return 'webm';
+            }
+
+            async uploadToSharePoint() {
+                if (!this.videoBlob) return;
+
+                this.showStatus('<span class="loading-spinner"></span>Uploading to OneDrive/SharePoint...', 'info');
+
+                try {
+                    const base64Video = await this.blobToBase64(this.videoBlob);
+                    const extension = this.getFileExtension();
+                    const timestamp = this.getRecordingTimestamp();
+                    
+                    // Create filename from email + recording time
+                    const emailSafe = this.userEmail.replace(/[^a-zA-Z0-9@.]/g, '');
+                    const filename = `${emailSafe}${timestamp}.${extension}`;
+
+                    const response = await fetch(`${CONFIG.API_BASE_URL}/api/upload`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            video: base64Video,
+                            familyName: this.familyName,
+                            firstName: this.firstName,
+                            userEmail: this.userEmail,
+                            whatsappTel: this.getFullPhoneNumber(),
+                            countryCode: this.countryCode,
+                            phone: this.whatsappTel,
+                            filename: filename,
+                            mimeType: this.currentMimeType,
+                            recordedAt: new Date().toISOString()
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        this.showStatus(
+                            `✅ Upload successful! Video saved to SharePoint.`,
+                            'success'
+                        );
+                    } else {
+                        throw new Error(result.error || 'Upload failed');
+                    }
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    this.showStatus(`Upload error: ${error.message}`, 'error');
+                }
+            }
+
+            blobToBase64(blob) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+            }
+
+            showStatus(message, type) {
+                this.elements.statusMessage.innerHTML = message;
+                this.elements.statusMessage.className = `status-message ${type}`;
+
+                if (type === 'info' || type === 'success') {
+                    setTimeout(() => {
+                        this.elements.statusMessage.className = 'status-message';
+                    }, 5000);
+                }
+            }
+
+            selectLanguage(lang) {
+                this.currentLanguage = lang;
+                
+                const options = document.querySelectorAll('.language-option');
+                options.forEach(opt => opt.classList.remove('active'));
+                document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+                
+                if (lang === 'chinese') {
+                    LYRICS = LYRICS_CHINESE;
+                } else {
+                    LYRICS = LYRICS_ENGLISH;
+                }
+
+                this.elements.lyricsMain.textContent = '';
+                this.elements.lyricsNext.textContent = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.karaokeApp = new KaraokeApp();
+        });
+
+        // Global functions for consent modal
+        function confirmAndUpload() {
+            const checkbox = document.getElementById('consentCheck');
+            if (checkbox.checked) {
+                closeConsentModal();
+                if (window.karaokeApp) {
+                    window.karaokeApp.uploadToSharePoint();
+                }
+            }
+        }
+
+        function closeConsentModal() {
+            const modal = document.getElementById('consentModal');
+            modal.classList.remove('active');
+            const checkbox = document.getElementById('consentCheck');
+            const confirmBtn = document.getElementById('confirmUploadBtn');
+            checkbox.checked = false;
+            confirmBtn.disabled = true;
+        }
+    </script>
+</body>
+</html>
