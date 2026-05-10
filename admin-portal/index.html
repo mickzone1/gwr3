@@ -287,6 +287,15 @@
                 min-width: 1000px;
             }
         }
+
+        .version-footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 1px;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -557,6 +566,17 @@
                 alert('Failed to export: ' + error.message);
             }
         }
+
+        (function() {
+            const d = new Date(document.lastModified);
+            const v = d.getFullYear()
+                + String(d.getMonth() + 1).padStart(2, '0')
+                + String(d.getDate()).padStart(2, '0')
+                + String(d.getHours()).padStart(2, '0')
+                + String(d.getMinutes()).padStart(2, '0');
+            document.getElementById('versionFooter').textContent = 'v' + v;
+        })();
     </script>
+    <footer class="version-footer" id="versionFooter"></footer>
 </body>
 </html>
