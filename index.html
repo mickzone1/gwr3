@@ -1321,16 +1321,6 @@
         </section>
 
         <section class="recording-section" id="recordingSection">
-            <div class="video-container">
-                <video id="webcamPreview" autoplay playsinline muted></video>
-                <canvas id="bgCanvas"></canvas>
-                <div class="countdown-overlay" id="countdownOverlay"></div>
-                <div class="recording-indicator" id="recordingIndicator">
-                    <div class="recording-dot"></div>
-                    <span class="recording-timer" id="recordingTimer">00:00</span>
-                </div>
-            </div>
-
             <!-- Virtual Background Selector -->
             <div class="vbg-selector" id="vbgSelector">
                 <div class="vbg-label">🎨 Virtual Background</div>
@@ -1366,6 +1356,16 @@
                 </div>
                 <div class="vbg-loading" id="vbgLoading" style="display:none;">
                     <span class="loading-spinner"></span> Loading AI model…
+                </div>
+            </div>
+
+            <div class="video-container">
+                <video id="webcamPreview" autoplay playsinline muted></video>
+                <canvas id="bgCanvas"></canvas>
+                <div class="countdown-overlay" id="countdownOverlay"></div>
+                <div class="recording-indicator" id="recordingIndicator">
+                    <div class="recording-dot"></div>
+                    <span class="recording-timer" id="recordingTimer">00:00</span>
                 </div>
             </div>
 
