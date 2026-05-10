@@ -441,87 +441,6 @@
             object-fit: contain;
         }
 
-        #bgCanvas {
-            display: none;
-            max-width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
-            transform: scaleX(-1); /* mirror for selfie preview; captureStream() stays natural */
-        }
-
-        /* Virtual Background Selector */
-        .vbg-selector {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .vbg-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.65);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 12px;
-        }
-
-        .vbg-options {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .vbg-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 2px solid rgba(193, 154, 59, 0.25);
-            border-radius: 10px;
-            padding: 6px 8px;
-            cursor: pointer;
-            touch-action: manipulation;
-            transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            min-width: 58px;
-        }
-
-        .vbg-option:active { transform: scale(0.93); }
-
-        .vbg-option.active {
-            border-color: #C19A3B;
-            box-shadow: 0 0 0 1px #C19A3B, 0 0 12px rgba(193, 154, 59, 0.3);
-            color: #C19A3B;
-        }
-
-        .vbg-thumb {
-            width: 52px;
-            height: 33px;
-            border-radius: 6px;
-        }
-
-        .vbg-thumb-none   { background: #1a1a2e; border: 1px dashed rgba(255,255,255,0.2); }
-        .vbg-thumb-blur   { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); filter: blur(3px) brightness(1.2); }
-        .vbg-thumb-eduhk  { background: linear-gradient(135deg, #082C56 0%, #1a5276 50%, #C19A3B 100%); }
-        .vbg-thumb-neon   { background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); }
-        .vbg-thumb-sunset { background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #fda085 100%); }
-        .vbg-thumb-ocean  { background: linear-gradient(135deg, #0052d4 0%, #4364f7 50%, #6fb1fc 100%); }
-        .vbg-thumb-forest { background: linear-gradient(135deg, #134e5e 0%, #71b280 100%); }
-
-        .vbg-loading {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
         .countdown-overlay {
             position: absolute;
             top: 0;
@@ -1197,7 +1116,6 @@
             user-select: none;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
@@ -1330,47 +1248,8 @@
         </section>
 
         <section class="recording-section" id="recordingSection">
-            <!-- Virtual Background Selector -->
-            <div class="vbg-selector" id="vbgSelector">
-                <div class="vbg-label">🎨 Virtual Background</div>
-                <div class="vbg-options">
-                    <button class="vbg-option active" data-bg="none" onclick="window.karaokeApp.selectVirtualBg('none')">
-                        <div class="vbg-thumb vbg-thumb-none"></div>
-                        <span>None</span>
-                    </button>
-                    <button class="vbg-option" data-bg="blur" onclick="window.karaokeApp.selectVirtualBg('blur')">
-                        <div class="vbg-thumb vbg-thumb-blur"></div>
-                        <span>Blur</span>
-                    </button>
-                    <button class="vbg-option" data-bg="eduhk" onclick="window.karaokeApp.selectVirtualBg('eduhk')">
-                        <div class="vbg-thumb vbg-thumb-eduhk"></div>
-                        <span>EdUHK</span>
-                    </button>
-                    <button class="vbg-option" data-bg="neon" onclick="window.karaokeApp.selectVirtualBg('neon')">
-                        <div class="vbg-thumb vbg-thumb-neon"></div>
-                        <span>Neon</span>
-                    </button>
-                    <button class="vbg-option" data-bg="sunset" onclick="window.karaokeApp.selectVirtualBg('sunset')">
-                        <div class="vbg-thumb vbg-thumb-sunset"></div>
-                        <span>Sunset</span>
-                    </button>
-                    <button class="vbg-option" data-bg="ocean" onclick="window.karaokeApp.selectVirtualBg('ocean')">
-                        <div class="vbg-thumb vbg-thumb-ocean"></div>
-                        <span>Ocean</span>
-                    </button>
-                    <button class="vbg-option" data-bg="forest" onclick="window.karaokeApp.selectVirtualBg('forest')">
-                        <div class="vbg-thumb vbg-thumb-forest"></div>
-                        <span>Forest</span>
-                    </button>
-                </div>
-                <div class="vbg-loading" id="vbgLoading" style="display:none;">
-                    <span class="loading-spinner"></span> Loading AI model…
-                </div>
-            </div>
-
             <div class="video-container">
                 <video id="webcamPreview" autoplay playsinline muted></video>
-                <canvas id="bgCanvas"></canvas>
                 <div class="countdown-overlay" id="countdownOverlay"></div>
                 <div class="recording-indicator" id="recordingIndicator">
                     <div class="recording-dot"></div>
@@ -1569,16 +1448,6 @@
                 this.audioContext = null;
                 this.musicSource = null;
 
-                // Virtual background
-                this.virtualBgMode = 'none';
-                this.segmentation = null;
-                this.bgCanvas = null;
-                this.bgCtx = null;
-                this.personCanvas = null;
-                this.personCtx = null;
-                this.bgCanvasStream = null;
-                this.frameLoopId = null;
-
                 this.elements = {
                     familyName: document.getElementById('familyName'),
                     firstName: document.getElementById('firstName'),
@@ -1740,20 +1609,6 @@ showConsentModal() {
                             this.elements.webcamPreview.style.transform = 'scaleX(-1)';
                             this.elements.webcamPreview.style.width = '100%';
                             this.elements.webcamPreview.style.height = 'auto';
-
-                            // Pre-create canvas and canvas stream so they're ready for recording
-                            this.bgCanvas = document.getElementById('bgCanvas');
-                            this.bgCtx = this.bgCanvas.getContext('2d');
-                            const vw = this.elements.webcamPreview.videoWidth || 640;
-                            const vh = this.elements.webcamPreview.videoHeight || 480;
-                            this.bgCanvas.width = vw;
-                            this.bgCanvas.height = vh;
-                            this.personCanvas = document.createElement('canvas');
-                            this.personCanvas.width = vw;
-                            this.personCanvas.height = vh;
-                            this.personCtx = this.personCanvas.getContext('2d');
-                            this.bgCanvasStream = this.bgCanvas.captureStream(30);
-
                             resolve();
                         };
                     });
@@ -1874,14 +1729,9 @@ showConsentModal() {
                 // Connect microphone to recorder
                 micSource.connect(micGain).connect(dest);
                 
-                // Use canvas video track when virtual background is active
-                const videoTracks = (this.virtualBgMode !== 'none' && this.bgCanvasStream)
-                    ? this.bgCanvasStream.getVideoTracks()
-                    : this.webcamStream.getVideoTracks();
-
                 // Create combined stream with video + mixed audio
                 const combinedStream = new MediaStream([
-                    ...videoTracks,
+                    ...this.webcamStream.getVideoTracks(),
                     ...dest.stream.getAudioTracks()
                 ]);
 
@@ -1933,191 +1783,6 @@ showConsentModal() {
                 this.mediaRecorder.start(250);
             }
 
-            // ── Virtual Background ──────────────────────────────────────────
-
-            async initSegmentation() {
-                if (this.segmentation) return;
-                const loading = document.getElementById('vbgLoading');
-                if (loading) loading.style.display = 'flex';
-
-                const seg = new SelfieSegmentation({
-                    locateFile: (file) =>
-                        `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`
-                });
-                seg.setOptions({
-                    modelComplexity: this.isMobileDevice() ? 0 : 1,
-                    selfieMode: false
-                });
-                seg.onResults((results) => this.onSegmentationResults(results));
-                await seg.initialize();
-
-                this.segmentation = seg;
-                if (loading) loading.style.display = 'none';
-            }
-
-            onSegmentationResults(results) {
-                if (!this.bgCanvas || !this.bgCtx || !this.personCanvas) return;
-                const w = this.bgCanvas.width;
-                const h = this.bgCanvas.height;
-                const ctx = this.bgCtx;
-                const pCtx = this.personCtx;
-
-                // Build person cutout on the person canvas
-                pCtx.clearRect(0, 0, w, h);
-                pCtx.drawImage(results.image, 0, 0, w, h);
-                pCtx.globalCompositeOperation = 'destination-in';
-                pCtx.drawImage(results.segmentationMask, 0, 0, w, h);
-                pCtx.globalCompositeOperation = 'source-over';
-
-                // Composite: background first, then person on top
-                ctx.clearRect(0, 0, w, h);
-                this.drawVirtualBackground(ctx, w, h, results.image);
-                ctx.drawImage(this.personCanvas, 0, 0);
-            }
-
-            drawVirtualBackground(ctx, w, h, originalImage) {
-                switch (this.virtualBgMode) {
-                    case 'blur': {
-                        ctx.save();
-                        ctx.filter = 'blur(18px)';
-                        ctx.drawImage(originalImage, -25, -25, w + 50, h + 50);
-                        ctx.filter = 'none';
-                        ctx.restore();
-                        break;
-                    }
-                    case 'eduhk': {
-                        const g = ctx.createLinearGradient(0, 0, w, h);
-                        g.addColorStop(0, '#082C56');
-                        g.addColorStop(0.55, '#0e3d73');
-                        g.addColorStop(1, '#C19A3B');
-                        ctx.fillStyle = g;
-                        ctx.fillRect(0, 0, w, h);
-                        break;
-                    }
-                    case 'neon': {
-                        const g = ctx.createLinearGradient(0, 0, w, h);
-                        g.addColorStop(0, '#0f0c29');
-                        g.addColorStop(0.5, '#302b63');
-                        g.addColorStop(1, '#24243e');
-                        ctx.fillStyle = g;
-                        ctx.fillRect(0, 0, w, h);
-                        // Subtle neon glow ring
-                        const glow = ctx.createRadialGradient(w * 0.5, h * 0.5, h * 0.1, w * 0.5, h * 0.5, h * 0.75);
-                        glow.addColorStop(0, 'rgba(160,32,240,0)');
-                        glow.addColorStop(1, 'rgba(160,32,240,0.18)');
-                        ctx.fillStyle = glow;
-                        ctx.fillRect(0, 0, w, h);
-                        break;
-                    }
-                    case 'sunset': {
-                        const g = ctx.createLinearGradient(0, 0, w, h);
-                        g.addColorStop(0, '#f093fb');
-                        g.addColorStop(0.45, '#f5576c');
-                        g.addColorStop(1, '#fda085');
-                        ctx.fillStyle = g;
-                        ctx.fillRect(0, 0, w, h);
-                        break;
-                    }
-                    case 'ocean': {
-                        const g = ctx.createLinearGradient(0, 0, w, h);
-                        g.addColorStop(0, '#0052d4');
-                        g.addColorStop(0.5, '#4364f7');
-                        g.addColorStop(1, '#6fb1fc');
-                        ctx.fillStyle = g;
-                        ctx.fillRect(0, 0, w, h);
-                        break;
-                    }
-                    case 'forest': {
-                        const g = ctx.createLinearGradient(0, 0, w, h);
-                        g.addColorStop(0, '#134e5e');
-                        g.addColorStop(1, '#71b280');
-                        ctx.fillStyle = g;
-                        ctx.fillRect(0, 0, w, h);
-                        break;
-                    }
-                }
-            }
-
-            startFrameLoop() {
-                if (this.frameLoopId) return;
-                let lastTime = 0;
-                const targetInterval = this.isMobileDevice() ? 1000 / 12 : 1000 / 20;
-
-                const loop = async (ts) => {
-                    if (this.virtualBgMode === 'none' || !this.webcamStream) {
-                        this.frameLoopId = null;
-                        return;
-                    }
-                    if (ts - lastTime >= targetInterval) {
-                        lastTime = ts;
-                        const vid = this.elements.webcamPreview;
-                        if (this.segmentation && vid.readyState >= 2) {
-                            await this.segmentation.send({ image: vid });
-                        }
-                    }
-                    this.frameLoopId = requestAnimationFrame(loop);
-                };
-                this.frameLoopId = requestAnimationFrame(loop);
-            }
-
-            stopFrameLoop() {
-                if (this.frameLoopId) {
-                    cancelAnimationFrame(this.frameLoopId);
-                    this.frameLoopId = null;
-                }
-                // Restore raw video display
-                if (this.bgCanvas) this.bgCanvas.style.display = 'none';
-                this.elements.webcamPreview.style.display = 'block';
-            }
-
-            async selectVirtualBg(bgId) {
-                document.querySelectorAll('.vbg-option').forEach(btn =>
-                    btn.classList.toggle('active', btn.dataset.bg === bgId)
-                );
-
-                if (bgId === 'none') {
-                    this.virtualBgMode = 'none';
-                    this.stopFrameLoop();
-                    return;
-                }
-
-                this.virtualBgMode = bgId;
-
-                // Set up canvases if not yet done
-                if (!this.bgCanvas) {
-                    this.bgCanvas = document.getElementById('bgCanvas');
-                    this.bgCtx = this.bgCanvas.getContext('2d');
-                    const vid = this.elements.webcamPreview;
-                    this.bgCanvas.width = vid.videoWidth || 640;
-                    this.bgCanvas.height = vid.videoHeight || 480;
-                    this.personCanvas = document.createElement('canvas');
-                    this.personCanvas.width = this.bgCanvas.width;
-                    this.personCanvas.height = this.bgCanvas.height;
-                    this.personCtx = this.personCanvas.getContext('2d');
-                    this.bgCanvasStream = this.bgCanvas.captureStream(30);
-                }
-
-                // Show canvas, hide raw video
-                this.elements.webcamPreview.style.display = 'none';
-                this.bgCanvas.style.display = 'block';
-
-                // Load AI model on first use
-                if (!this.segmentation) {
-                    try {
-                        await this.initSegmentation();
-                    } catch (err) {
-                        console.error('Segmentation init failed:', err);
-                        this.showStatus('Virtual background unavailable in this browser.', 'error');
-                        this.virtualBgMode = 'none';
-                        this.stopFrameLoop();
-                        return;
-                    }
-                }
-
-                this.startFrameLoop();
-            }
-
-            // ── End Virtual Background ──────────────────────────────────────
 
             isMobileDevice() {
                 return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
