@@ -704,64 +704,7 @@
         }
 
         /* Participant Counter */
-        .participant-counter {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            background: linear-gradient(135deg, rgba(193, 154, 59, 0.2), rgba(8, 44, 86, 0.85));
-            border: 2px solid rgba(193, 154, 59, 0.5);
-            border-radius: 16px;
-            padding: 25px 40px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 40px rgba(193, 154, 59, 0.15);
-        }
-
-        .counter-icon {
-            font-size: 3.5rem;
-            filter: drop-shadow(0 0 10px rgba(193, 154, 59, 0.5));
-        }
-
-        .counter-number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #C19A3B, #f4c84a, #C19A3B);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            animation: shimmer 3s linear infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-
-        .counter-labels {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .counter-label-zh {
-            font-size: 1rem;
-            color: #C19A3B;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .counter-label-en {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        /* Modal Styles */
+/* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -1037,32 +980,7 @@
                 padding: 6px 12px;
             }
 
-            .participant-counter {
-                padding: 20px 25px;
-                gap: 15px;
-            }
-
-            .counter-icon {
-                font-size: 2.5rem;
-            }
-
-            .counter-number {
-                font-size: 2.5rem;
-            }
-
-            .counter-labels {
-                gap: 3px;
-            }
-
-            .counter-label-zh {
-                font-size: 0.9rem;
-            }
-
-            .counter-label-en {
-                font-size: 0.75rem;
-            }
-
-            .lyrics-text {
+.lyrics-text {
                 font-size: 1.4rem;
             }
 
@@ -1198,18 +1116,7 @@
             <p>Most Instagram Videos Featuring Performances of the Same Song</p>
         </header>
 
-        <div class="participant-counter" id="participantCounter">
-            <div class="counter-icon">🏆</div>
-            <div class="counter-content">
-                <div class="counter-number" id="participantCount">0</div>
-            </div>
-            <div class="counter-labels">
-                <div class="counter-label-zh">位參與者已加入</div>
-                <div class="counter-label-en">Participants Joined</div>
-            </div>
-        </div>
-
-        <section class="auth-form" id="authSection">
+<section class="auth-form" id="authSection">
             <h2>🏆 Participant Registration</h2>
             <form id="userForm">
                 <div class="form-row">
@@ -1520,7 +1427,6 @@
                 this.countryCode = '';
                 this.whatsappTel = '';
                 this.currentLanguage = 'chinese';
-                this.participantCount = 0;
                 this.webcamStream = null;
                 this.mediaRecorder = null;
                 this.recordedChunks = [];
@@ -1554,8 +1460,6 @@
                     stopBtn: document.getElementById('stopBtn'),
                     downloadBtn: document.getElementById('downloadBtn'),
                     uploadBtn: document.getElementById('uploadBtn'),
-                    participantCount: document.getElementById('participantCount'),
-                    participantCounter: document.getElementById('participantCounter'),
                     backgroundAudio: document.getElementById('backgroundAudio'),
                     statusMessage: document.getElementById('statusMessage')
                 };
@@ -1571,10 +1475,6 @@
                 // to comply with iOS Safari and Android Chrome autoplay policies
                 this.audioContext = null;
 
-                // Set participant count to 0 (backend not deployed)
-                if (this.elements.participantCount) {
-                    this.elements.participantCount.textContent = '0';
-                }
             }
 
             attachEventListeners() {
@@ -1600,40 +1500,7 @@
                 }
             }
 
-            async fetchParticipantCount() {
-                try {
-                    const response = await fetch(`${CONFIG.API_BASE_URL}/api/participants/count`);
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        this.participantCount = result.count;
-                        this.animateCounter();
-                    }
-                } catch (error) {
-                    console.error('Failed to fetch participant count:', error);
-                }
-            }
-
-            animateCounter() {
-                const element = this.elements.participantCount;
-                const target = this.participantCount;
-                const duration = 2000;
-                const start = 0;
-                const increment = target / (duration / 16);
-                let current = start;
-                
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        element.textContent = target;
-                        clearInterval(timer);
-                    } else {
-                        element.textContent = Math.floor(current);
-                    }
-                }, 16);
-            }
-
-            showConsentModal() {
+showConsentModal() {
                 if (!this.videoBlob) {
                     this.showStatus('No video available. Please record first.', 'error');
                     return;
