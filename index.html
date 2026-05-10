@@ -312,7 +312,7 @@
             .form-group input,
             .form-group select {
                 padding: 14px 16px;
-                font-size: 1rem;
+                font-size: 16px; /* prevents iOS Safari auto-zoom on focus */
             }
         }
 
@@ -363,6 +363,12 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             min-height: 60px;
+            touch-action: manipulation;
+        }
+
+        .btn:active:not(:disabled) {
+            opacity: 0.8;
+            transform: scale(0.97);
         }
 
         .btn-primary {
@@ -831,7 +837,7 @@
             transition: all 0.3s ease;
         }
 
-        .close-btn:hover {
+        .close-btn:hover, .close-btn:active {
             background: rgba(193, 154, 59, 0.2);
             color: #C19A3B;
         }
@@ -1560,14 +1566,11 @@
             init() {
                 this.attachEventListeners();
                 this.validateForm();
-                
-                // Initialize AudioContext once (fixes InvalidStateError)
-                try {
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                } catch (error) {
-                    console.error('AudioContext not supported:', error);
-                }
-                
+
+                // AudioContext is created on first user gesture (in proceedWithRecording)
+                // to comply with iOS Safari and Android Chrome autoplay policies
+                this.audioContext = null;
+
                 // Set participant count to 0 (backend not deployed)
                 if (this.elements.participantCount) {
                     this.elements.participantCount.textContent = '0';
@@ -1743,7 +1746,18 @@
                 modal.classList.add('active');
             }
 
-            proceedWithRecording() {
+            async proceedWithRecording() {
+                if (!this.audioContext) {
+                    try {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    } catch (error) {
+                        this.showStatus('Audio not supported on this device. Please try Safari on iOS 14.3+ or Chrome on Android.', 'error');
+                        return;
+                    }
+                }
+                if (this.audioContext.state === 'suspended') {
+                    await this.audioContext.resume();
+                }
                 this.startRecording();
             }
 
@@ -1755,12 +1769,6 @@
                 this.elements.downloadBtn.disabled = true;
                 this.elements.uploadBtn.disabled = true;
                 this.elements.lyricsProgressBar.style.width = '0%';
-
-                // Check if AudioContext is available
-                if (!this.audioContext) {
-                    this.showStatus('Audio not supported in this browser. Please use Chrome.', 'error');
-                    return;
-                }
 
                 // Ensure audio is loaded before recording
                 if (this.elements.backgroundAudio.readyState < 2) {
@@ -1856,7 +1864,7 @@
                 
                 this.mediaRecorder = new MediaRecorder(combinedStream, {
                     mimeType: supportedMimeType,
-                    videoBitsPerSecond: 8000000
+                    videoBitsPerSecond: this.isMobileDevice() ? 2000000 : 8000000
                 });
 
                 this.recordedChunks = [];
@@ -1897,6 +1905,10 @@
                 };
 
                 this.mediaRecorder.start(250);
+            }
+
+            isMobileDevice() {
+                return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             }
 
             getSupportedMimeType() {
@@ -2086,58 +2098,72 @@
                 if (!this.videoBlob) return;
 
                 this.showStatus('<span class="loading-spinner"></span>Uploading to OneDrive/SharePoint...', 'info');
+                this.hideRetryButton();
+
+                const extension = this.getFileExtension();
+                const timestamp = this.getRecordingTimestamp();
+                const emailSafe = this.userEmail.replace(/[^a-zA-Z0-9@.]/g, '');
+                const filename = `${emailSafe}${timestamp}.${extension}`;
+
+                const formData = new FormData();
+                formData.append('video', this.videoBlob, filename);
+                formData.append('familyName', this.familyName);
+                formData.append('firstName', this.firstName);
+                formData.append('userEmail', this.userEmail);
+                formData.append('whatsappTel', this.getFullPhoneNumber());
+                formData.append('countryCode', this.countryCode);
+                formData.append('phone', this.whatsappTel);
+                formData.append('filename', filename);
+                formData.append('mimeType', this.currentMimeType || '');
+                formData.append('recordedAt', new Date().toISOString());
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 300000);
 
                 try {
-                    const base64Video = await this.blobToBase64(this.videoBlob);
-                    const extension = this.getFileExtension();
-                    const timestamp = this.getRecordingTimestamp();
-                    
-                    // Create filename from email + recording time
-                    const emailSafe = this.userEmail.replace(/[^a-zA-Z0-9@.]/g, '');
-                    const filename = `${emailSafe}${timestamp}.${extension}`;
-
                     const response = await fetch(`${CONFIG.API_BASE_URL}/api/upload`, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            video: base64Video,
-                            familyName: this.familyName,
-                            firstName: this.firstName,
-                            userEmail: this.userEmail,
-                            whatsappTel: this.getFullPhoneNumber(),
-                            countryCode: this.countryCode,
-                            phone: this.whatsappTel,
-                            filename: filename,
-                            mimeType: this.currentMimeType,
-                            recordedAt: new Date().toISOString()
-                        })
+                        body: formData,
+                        signal: controller.signal
                     });
+                    clearTimeout(timeoutId);
 
                     const result = await response.json();
 
                     if (result.success) {
-                        this.showStatus(
-                            `✅ Upload successful! Video saved to SharePoint.`,
-                            'success'
-                        );
+                        this.showStatus('✅ Upload successful! Video saved to SharePoint.', 'success');
                     } else {
                         throw new Error(result.error || 'Upload failed');
                     }
                 } catch (error) {
+                    clearTimeout(timeoutId);
                     console.error('Upload error:', error);
-                    this.showStatus(`Upload error: ${error.message}`, 'error');
+                    if (error.name === 'AbortError') {
+                        this.showStatus('Upload timed out. Please check your connection and try again.', 'error');
+                    } else {
+                        this.showStatus(`Upload error: ${error.message}`, 'error');
+                    }
+                    this.showRetryButton();
                 }
             }
 
-            blobToBase64(blob) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result.split(',')[1]);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(blob);
-                });
+            showRetryButton() {
+                let btn = document.getElementById('retryUploadBtn');
+                if (!btn) {
+                    btn = document.createElement('button');
+                    btn.id = 'retryUploadBtn';
+                    btn.className = 'btn btn-drive';
+                    btn.style.marginTop = '10px';
+                    btn.textContent = 'Retry Upload';
+                    btn.addEventListener('click', () => this.uploadToSharePoint());
+                    this.elements.statusMessage.insertAdjacentElement('afterend', btn);
+                }
+                btn.style.display = 'inline-flex';
+            }
+
+            hideRetryButton() {
+                const btn = document.getElementById('retryUploadBtn');
+                if (btn) btn.style.display = 'none';
             }
 
             showStatus(message, type) {

@@ -6,6 +6,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const { ClientSecretCredential } = require('@azure/identity');
 const { Client } = require('@microsoft/microsoft-graph-client');
 const mongoose = require('mongoose');
@@ -19,8 +20,13 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 500 * 1024 * 1024 } // 500 MB cap
+});
 
 // Database Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/eduhk-gwr', {
@@ -133,10 +139,9 @@ app.get('/api/participants/count', async (req, res) => {
 });
 
 // Upload video endpoint
-app.post('/api/upload', async (req, res) => {
+app.post('/api/upload', upload.single('video'), async (req, res) => {
   try {
     const {
-      video,
       familyName,
       firstName,
       userEmail,
@@ -149,15 +154,14 @@ app.post('/api/upload', async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!video || !familyName || !firstName || !userEmail) {
+    if (!req.file || !familyName || !firstName || !userEmail) {
       return res.status(400).json({
         success: false,
         error: 'Missing required fields'
       });
     }
 
-    // Decode base64 video
-    const videoBuffer = Buffer.from(video, 'base64');
+    const videoBuffer = req.file.buffer;
 
     // Upload to SharePoint
     const uploadResult = await uploadToSharePoint(videoBuffer, filename);
