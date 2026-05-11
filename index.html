@@ -884,6 +884,105 @@
             min-width: 200px;
         }
 
+        .upload-method-section {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid rgba(193, 154, 59, 0.5);
+        }
+
+        .upload-method-section h3 {
+            color: #C19A3B;
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .upload-method-section h4 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .upload-method-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .upload-method-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 2px solid rgba(193, 154, 59, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-method-option:hover {
+            border-color: rgba(193, 154, 59, 0.6);
+            background: rgba(193, 154, 59, 0.08);
+        }
+
+        .upload-method-option.selected {
+            border-color: #C19A3B;
+            background: rgba(193, 154, 59, 0.15);
+            box-shadow: 0 0 15px rgba(193, 154, 59, 0.2);
+        }
+
+        .upload-method-option input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+            accent-color: #C19A3B;
+        }
+
+        .upload-method-option label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ffffff;
+        }
+
+        .upload-method-option label .zh {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .upload-method-option label .en {
+            display: block;
+            opacity: 0.85;
+        }
+
+        .privacy-statement {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(193, 154, 59, 0.2);
+        }
+
+        .privacy-statement h5 {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .privacy-statement p {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.75rem;
+            line-height: 1.6;
+            margin-bottom: 6px;
+        }
+
         .consent-content::-webkit-scrollbar {
             width: 8px;
         }
@@ -1303,38 +1402,42 @@
                 </div>
                 
                 <div class="consent-content">
+                    <div class="upload-method-section">
+                        <h3>影片上載方式</h3>
+                        <h4>Video Upload Method</h4>
+                        <div class="upload-method-options">
+                            <div class="upload-method-option" id="uploadMethodCardA">
+                                <input type="radio" name="uploadMethod" id="uploadMethodA" value="eduhk">
+                                <label for="uploadMethodA">
+                                    <span class="zh">本人同意授權教大代為上載我的影片至公開 Instagram 賬戶。</span>
+                                    <span class="en">I agree to authorise EdUHK to upload my video to a public Instagram account on my behalf.</span>
+                                </label>
+                            </div>
+                            <div class="upload-method-option" id="uploadMethodCardB">
+                                <input type="radio" name="uploadMethod" id="uploadMethodB" value="self">
+                                <label for="uploadMethodB">
+                                    <span class="zh">本人計劃自行上載影片，並同意授權教大於挑戰當天同步協助將影片上載至公開的 Instagram 賬戶。</span>
+                                    <span class="en">I plan to upload the video myself and agree to authorise EdUHK to simultaneously assist in uploading the video to a public Instagram account on the challenge day.</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="consent-section">
                         <h3>有關使用個人影像及個人資料的條款</h3>
                         <h4>Terms on the Use of Personal Images and Personal Data</h4>
-                        
+
                         <div class="consent-text-bilingual">
                             <div class="consent-text-zh">
-                                <p>活動進行期間收集的個人數據資料只供學術研究及報告紀錄之用。</p>
                                 <p>活動的所有照片、影片或參加者肖像，均有可能出現在任何正式的紀錄片段、報告，以及一切多媒體平台中，並以不同的形式發佈，而不會提供任何酬勞。本活動之影片、影像及紀錄，本校及本計劃均有絕對使用權。</p>
                                 <p>香港教育大學（本校）有權使用、複製、展示、顯示、廣播及/或分發本人之影像（包括本校或其承判商或代理就參加者型像、姿態、動作、外觀的攝取或製造的照片或影片或其他紀錄或就參加者聲音之記錄）（下稱「該影像」）。該影像將經任何現有或將來開發的媒體作有關於宣傳、推廣及/或報導該活動、本計劃及/或本校及本中心的用途（可能包括任何印刷或電子出版物或廣告、研究報告或演說的材料、互聯網、社交網絡媒體、報刊、電視或電台廣播）。</p>
                                 <p>該影像的版權及其他知識產權屬本校所有。</p>
                             </div>
-                            
+
                             <div class="consent-text-en">
-                                <p>Personal data collected during the event will be used solely for the purposes of the event, academic research, and record-keeping and reporting.</p>
                                 <p>All photographs, videos, or portraits of participants taken in connection with the event may appear in official records, reports, and on any multimedia platforms, and may be published in various formats without payment or other compensation. The University and this programme shall have the unrestricted right to use the recordings, images, and documentation produced in connection with the event.</p>
                                 <p>The Education University of Hong Kong (the "University") is entitled to use, reproduce, exhibit, display, broadcast, and/or distribute my image (including photographs, videos or other recordings of my likeness, posture, movement or appearance, or recordings of my voice, whether made by the University or its contractors or agents) (the "Image"). The Image may be used in any existing or future media for the purposes of promoting, publicising and/or reporting on the event, the programme, and/or the University and its centres. Such use may include, but is not limited to, printed or electronic publications or advertisements, research reports or presentation materials, the Internet, social networking media, newspapers, television, and radio broadcasts.</p>
                                 <p>Copyright and all other intellectual property rights in the Image shall belong to the University.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="consent-section">
-                        <h3>個人資料收集聲明</h3>
-                        <h4>Personal Data Collection Statement</h4>
-                        
-                        <div class="consent-text-bilingual">
-                            <div class="consent-text-zh">
-                                <p>此表格內收集所有個人資料，僅供本計劃之用。根據《個人資料（私隱）條例》，舉辦單位不會在未經閣下授權的情況下，向第三方提供相關資料作傳銷或其他用途。您有權要求查閱並更正所提交的個人資料。如果您希望查閱或更正您的個人資料，請聯絡文化與創意藝術學系（電話：2948 8486；電郵：flet@eduhk.hk）。有關香港教育大學私隱政策聲明，請瀏覽以下網址：http://www.eduhk.hk/main/privacy-policy/</p>
-                            </div>
-                            
-                            <div class="consent-text-en">
-                                <p>All personal data collected on this form will be used solely for the purposes of this programme. In accordance with the Personal Data (Privacy) Ordinance, the organiser will not disclose such information to third parties for direct marketing or other purposes without your consent. You have the right to request access to and correction of the personal data you have submitted. If you wish to access or correct your personal data, please contact the Department of Cultural and Creative Arts (Tel: 2948 8486; Email: flet@eduhk.hk). For The Education University of Hong Kong's privacy policy statement, please visit: http://www.eduhk.hk/main/privacy-policy/</p>
                             </div>
                         </div>
                     </div>
@@ -1343,15 +1446,21 @@
                 <div class="consent-checkbox">
                     <input type="checkbox" id="consentCheck" required>
                     <label for="consentCheck">
-                        <strong>我已閱讀並同意以上條款 / I have read and agree to the Terms and Conditions</strong>
+                        <strong>本人確認已閱讀、清楚明白並同意上述條款細則。I confirm that I have read, understood and agree to the above terms and conditions.</strong>
                     </label>
                 </div>
-                
+
                 <div class="consent-actions">
                     <button class="btn btn-secondary" onclick="closeConsentModal()">取消 Cancel</button>
                     <button class="btn btn-primary" id="confirmUploadBtn" disabled onclick="confirmAndUpload()">
                         ✓ 同意並上傳 / I Agree & Upload
                     </button>
+                </div>
+
+                <div class="privacy-statement">
+                    <h5>個人資料收集聲明 Personal Data Collection Statement</h5>
+                    <p>此表格內收集所有個人資料，僅供本計劃之用。 根據《個人資料（私隱）條例》，舉辦單位不會在未經閣下授權的情況下，向第三方提供相關資料作傳銷或其他用途。 您有權要求查閱並更正所提交的個人資料。如果您希望查閱或更正您的個人資料，請聯絡文化與創意藝術學系（電話：2948 8486；電郵：flet@eduhk.hk）。 有關香港教育大學私隱政策聲明，請瀏覽以下網址： http://www.eduhk.hk/main/privacy-policy/</p>
+                    <p>All personal data collected on this form will be used solely for the purposes of this programme. In accordance with the Personal Data (Privacy) Ordinance, the organiser will not disclose such information to third parties for direct marketing or other purposes without your consent. You have the right to request access to and correction of the personal data you have submitted. If you wish to access or correct your personal data, please contact the Department of Cultural and Creative Arts (Tel: 2948 8486; Email: flet@eduhk.hk). For The Education University of Hong Kong's privacy policy statement, please visit: http://www.eduhk.hk/main/privacy-policy/</p>
                 </div>
             </div>
         </div>
@@ -1513,18 +1622,35 @@ showConsentModal() {
                     this.showStatus('No video available. Please record first.', 'error');
                     return;
                 }
-                
+
                 const modal = document.getElementById('consentModal');
                 modal.classList.add('active');
-                
+
                 const checkbox = document.getElementById('consentCheck');
                 const confirmBtn = document.getElementById('confirmUploadBtn');
-                
+                const radios = modal.querySelectorAll('input[name="uploadMethod"]');
+
+                // Reset state
                 checkbox.checked = false;
                 confirmBtn.disabled = true;
-                
-                checkbox.addEventListener('change', () => {
-                    confirmBtn.disabled = !checkbox.checked;
+                radios.forEach(r => {
+                    r.checked = false;
+                    document.getElementById(r.id === 'uploadMethodA' ? 'uploadMethodCardA' : 'uploadMethodCardB').classList.remove('selected');
+                });
+
+                const validate = () => {
+                    const radioSelected = !!modal.querySelector('input[name="uploadMethod"]:checked');
+                    confirmBtn.disabled = !(radioSelected && checkbox.checked);
+                };
+
+                checkbox.addEventListener('change', validate);
+                radios.forEach(r => {
+                    r.addEventListener('change', () => {
+                        // Update card highlight
+                        document.getElementById('uploadMethodCardA').classList.toggle('selected', document.getElementById('uploadMethodA').checked);
+                        document.getElementById('uploadMethodCardB').classList.toggle('selected', document.getElementById('uploadMethodB').checked);
+                        validate();
+                    });
                 });
             }
 
@@ -1992,6 +2118,8 @@ showConsentModal() {
                 formData.append('filename', filename);
                 formData.append('mimeType', this.currentMimeType || '');
                 formData.append('recordedAt', new Date().toISOString());
+                const selectedMethod = document.querySelector('input[name="uploadMethod"]:checked');
+                formData.append('uploadMethod', selectedMethod ? selectedMethod.value : '');
 
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 300000);
@@ -2093,6 +2221,9 @@ showConsentModal() {
             const confirmBtn = document.getElementById('confirmUploadBtn');
             checkbox.checked = false;
             confirmBtn.disabled = true;
+            modal.querySelectorAll('input[name="uploadMethod"]').forEach(r => { r.checked = false; });
+            document.getElementById('uploadMethodCardA').classList.remove('selected');
+            document.getElementById('uploadMethodCardB').classList.remove('selected');
         }
 
         (function() {
