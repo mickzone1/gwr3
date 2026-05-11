@@ -1881,13 +1881,13 @@ showConsentModal() {
                 
                 // Create gain nodes for volume control
                 const musicGainRecord = audioContext.createGain();
-                musicGainRecord.gain.value = 0.5;  // Music for recording (50%)
-                
+                musicGainRecord.gain.value = 0.15;  // Music for recording (15%)
+
                 const musicGainSpeakers = audioContext.createGain();
                 musicGainSpeakers.gain.value = 0.7;  // Music for speakers (70%)
-                
+
                 const micGain = audioContext.createGain();
-                micGain.gain.value = 1.0;    // Voice at 100% volume
+                micGain.gain.value = 3.0;    // Voice boosted 3× in recording
                 
                 // Connect music to BOTH recorder AND speakers
                 // Path 1: Music → Gain → MediaRecorder (for video capture)
