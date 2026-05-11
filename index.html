@@ -1652,6 +1652,7 @@
                 this.canvasStream = null;
                 this.rafId = null;
                 this.lyricsTimeout = null;
+                this.lyricsRaf = null;
                 this.recordingStartTime = null;
                 this.timerInterval = null;
                 
@@ -2178,6 +2179,7 @@ showConsentModal() {
                 });
 
                 const totalDuration = events[events.length - 1].time;
+                let lastEventIdx = -1;
 
                 const renderPhrase = (phraseIdx, activeWordIdx) => {
                     const phrase = LYRICS[phraseIdx];
@@ -2195,23 +2197,38 @@ showConsentModal() {
                     }).join('');
                 };
 
-                const step = (idx) => {
-                    const evt = events[idx];
-                    renderPhrase(evt.phraseIdx, evt.wordIdx);
-                    this.updateLyricsProgress(evt.time, totalDuration);
+                const poll = () => {
+                    const currentMs = this.elements.backgroundAudio.currentTime * 1000;
 
-                    if (idx < events.length - 1) {
-                        const delay = events[idx + 1].time - evt.time;
-                        this.lyricsTimeout = setTimeout(() => step(idx + 1), delay);
-                    } else {
-                        this.lyricsTimeout = setTimeout(() => {
-                            this.elements.lyricsMain.innerHTML = '';
-                            this.elements.lyricsNext.innerHTML = '';
-                        }, 2000);
+                    // Find the last event whose timestamp has been reached
+                    let idx = -1;
+                    for (let i = 0; i < events.length; i++) {
+                        if (events[i].time <= currentMs) idx = i;
+                        else break;
                     }
+
+                    if (idx !== lastEventIdx) {
+                        lastEventIdx = idx;
+                        if (idx >= 0) {
+                            renderPhrase(events[idx].phraseIdx, events[idx].wordIdx);
+                            this.updateLyricsProgress(events[idx].time, totalDuration);
+                        }
+                    }
+
+                    if (this.elements.backgroundAudio.paused || this.elements.backgroundAudio.ended) {
+                        if (this.elements.backgroundAudio.ended) {
+                            this.lyricsTimeout = setTimeout(() => {
+                                this.elements.lyricsMain.innerHTML = '';
+                                this.elements.lyricsNext.innerHTML = '';
+                            }, 2000);
+                        }
+                        return;
+                    }
+
+                    this.lyricsRaf = requestAnimationFrame(poll);
                 };
 
-                step(0);
+                this.lyricsRaf = requestAnimationFrame(poll);
             }
 
             updateLyricsProgress(currentTime, totalTime) {
@@ -2235,6 +2252,11 @@ showConsentModal() {
                 if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
                     this.mediaRecorder.stop();
                     this.elements.stopBtn.disabled = true;
+                }
+
+                if (this.lyricsRaf) {
+                    cancelAnimationFrame(this.lyricsRaf);
+                    this.lyricsRaf = null;
                 }
 
                 if (this.lyricsTimeout) {
