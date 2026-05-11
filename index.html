@@ -1938,16 +1938,30 @@ showConsentModal() {
                     }
                 }
                 if (this.audioContext.state === 'suspended') {
-                    await this.audioContext.resume();
+                    try {
+                        await this.audioContext.resume();
+                    } catch (e) {
+                        // resume() rejected — proceed anyway, audio may still work
+                    }
                 }
                 if (!this.micSource) {
-                    this.micSource = this.audioContext.createMediaStreamSource(this.webcamStream);
-                    this.analyser = this.audioContext.createAnalyser();
-                    this.analyser.fftSize = 256;
-                    this.micSource.connect(this.analyser);
-                    this.startVuMeter();
+                    try {
+                        this.micSource = this.audioContext.createMediaStreamSource(this.webcamStream);
+                        this.analyser = this.audioContext.createAnalyser();
+                        this.analyser.fftSize = 256;
+                        this.micSource.connect(this.analyser);
+                        this.startVuMeter();
+                    } catch (e) {
+                        // mic monitoring unavailable — recording can still proceed
+                    }
                 }
-                this.startRecording();
+                try {
+                    await this.startRecording();
+                } catch (error) {
+                    this.showStatus('Could not start recording: ' + error.message, 'error');
+                    this.elements.recordBtn.disabled = false;
+                    this.elements.stopBtn.disabled = true;
+                }
             }
 
             async startRecording() {
