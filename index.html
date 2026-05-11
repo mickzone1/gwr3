@@ -510,6 +510,51 @@
             letter-spacing: 1px;
         }
 
+        .vu-meter {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 14px;
+            background: rgba(0,0,0,0.45);
+            border-radius: 7px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            z-index: 2;
+        }
+
+        .vu-bar {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top, #4caf50, #ffeb3b, #f44336);
+            border-radius: 7px;
+            transition: height 60ms linear;
+        }
+
+        .mic-select-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: #ccc;
+            font-size: 0.85rem;
+        }
+
+        .mic-select-row label {
+            white-space: nowrap;
+        }
+
+        .mic-select-row select {
+            flex: 1;
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 5px 8px;
+            font-size: 0.85rem;
+        }
+
         .lyrics-container {
             background: linear-gradient(135deg, rgba(8, 44, 86, 0.95), rgba(64, 118, 146, 0.9));
             border-radius: 20px;
@@ -1345,8 +1390,15 @@
         <video id="rawCameraFeed" autoplay playsinline muted style="display:none"></video>
 
         <section class="recording-section" id="recordingSection">
+            <div class="mic-select-row">
+                <label for="micSourceSelect">🎙 Microphone:</label>
+                <select id="micSourceSelect"></select>
+            </div>
             <div class="video-container">
                 <video id="webcamPreview" autoplay playsinline muted></video>
+                <div class="vu-meter" id="vuMeter">
+                    <div class="vu-bar" id="vuBar"></div>
+                </div>
                 <div class="countdown-overlay" id="countdownOverlay"></div>
                 <div class="recording-indicator" id="recordingIndicator">
                     <div class="recording-dot"></div>
@@ -1562,6 +1614,10 @@
                 // AudioContext
                 this.audioContext = null;
                 this.musicSource = null;
+                this.micSource = null;
+                this.micGain = null;
+                this.analyser = null;
+                this.vuRaf = null;
 
                 this.elements = {
                     familyName: document.getElementById('familyName'),
@@ -1586,7 +1642,10 @@
                     downloadBtn: document.getElementById('downloadBtn'),
                     uploadBtn: document.getElementById('uploadBtn'),
                     backgroundAudio: document.getElementById('backgroundAudio'),
-                    statusMessage: document.getElementById('statusMessage')
+                    statusMessage: document.getElementById('statusMessage'),
+                    vuMeter: document.getElementById('vuMeter'),
+                    vuBar: document.getElementById('vuBar'),
+                    micSourceSelect: document.getElementById('micSourceSelect')
                 };
 
                 this.init();
@@ -1783,6 +1842,21 @@ showConsentModal() {
                     };
                     drawFrame();
 
+                    // Enumerate audio inputs (labels available after permission is granted)
+                    const devices = await navigator.mediaDevices.enumerateDevices();
+                    const audioInputs = devices.filter(d => d.kind === 'audioinput');
+                    const sel = this.elements.micSourceSelect;
+                    sel.innerHTML = '';
+                    const currentLabel = (this.webcamStream.getAudioTracks()[0] || {}).label || '';
+                    audioInputs.forEach(d => {
+                        const opt = document.createElement('option');
+                        opt.value = d.deviceId;
+                        opt.textContent = d.label || `Microphone ${sel.options.length + 1}`;
+                        if (currentLabel && d.label === currentLabel) opt.selected = true;
+                        sel.appendChild(opt);
+                    });
+                    sel.addEventListener('change', () => this.changeMicSource(sel.value));
+
                 } catch (error) {
                     throw new Error(`Unable to access camera: ${error.message}`);
                 }
@@ -1804,6 +1878,13 @@ showConsentModal() {
                 }
                 if (this.audioContext.state === 'suspended') {
                     await this.audioContext.resume();
+                }
+                if (!this.micSource) {
+                    this.micSource = this.audioContext.createMediaStreamSource(this.webcamStream);
+                    this.analyser = this.audioContext.createAnalyser();
+                    this.analyser.fftSize = 256;
+                    this.micSource.connect(this.analyser);
+                    this.startVuMeter();
                 }
                 this.startRecording();
             }
@@ -1875,29 +1956,28 @@ showConsentModal() {
                     );
                 }
                 
-                // Capture microphone from webcam stream
-                const micSource = audioContext.createMediaStreamSource(
-                    this.webcamStream
-                );
-                
+                // Reuse micSource created in proceedWithRecording (already connected to analyser)
+                const micSource = this.micSource;
+
                 // Create gain nodes for volume control
                 const musicGainRecord = audioContext.createGain();
-                musicGainRecord.gain.value = 0.15;  // Music for recording (15%)
+                musicGainRecord.gain.value = 0.30;  // Music for recording (30%)
 
                 const musicGainSpeakers = audioContext.createGain();
                 musicGainSpeakers.gain.value = 0.7;  // Music for speakers (70%)
 
-                const micGain = audioContext.createGain();
-                micGain.gain.value = 3.0;    // Voice boosted 3× in recording
-                
+                this.micGain = audioContext.createGain();
+                this.micGain.gain.value = 3.0;
+                const micGain = this.micGain;
+
                 // Connect music to BOTH recorder AND speakers
                 // Path 1: Music → Gain → MediaRecorder (for video capture)
                 this.musicSource.connect(musicGainRecord).connect(dest);
-                
+
                 // Path 2: Music → Gain → Speakers (so user can hear)
                 this.musicSource.connect(musicGainSpeakers).connect(audioContext.destination);
-                
-                // Connect microphone to recorder
+
+                // Connect microphone to recorder (additional output from micSource)
                 micSource.connect(micGain).connect(dest);
                 
                 // Create combined stream: cropped 9:16 canvas video + mixed audio
@@ -2082,6 +2162,51 @@ showConsentModal() {
                 this.elements.lyricsProgressBar.style.width = '100%';
                 this.elements.lyricsMain.textContent = '';
                 this.elements.lyricsNext.textContent = '';
+            }
+
+            startVuMeter() {
+                const buf = new Uint8Array(this.analyser.frequencyBinCount);
+                const tick = () => {
+                    if (!this.analyser) return;
+                    this.analyser.getByteTimeDomainData(buf);
+                    let sum = 0;
+                    for (let i = 0; i < buf.length; i++) {
+                        const v = (buf[i] - 128) / 128;
+                        sum += v * v;
+                    }
+                    const rms = Math.sqrt(sum / buf.length);
+                    const pct = Math.min(100, rms * 600);
+                    this.elements.vuBar.style.height = pct + '%';
+                    this.vuRaf = requestAnimationFrame(tick);
+                };
+                tick();
+            }
+
+            async changeMicSource(deviceId) {
+                try {
+                    this.webcamStream.getAudioTracks().forEach(t => t.stop());
+                    const newAudio = await navigator.mediaDevices.getUserMedia({
+                        audio: {
+                            deviceId: { exact: deviceId },
+                            echoCancellation: false,
+                            noiseSuppression: false,
+                            autoGainControl: false,
+                            sampleRate: 44100
+                        },
+                        video: false
+                    });
+                    const newTrack = newAudio.getAudioTracks()[0];
+                    this.webcamStream.addTrack(newTrack);
+
+                    if (this.audioContext && this.micSource) {
+                        this.micSource.disconnect();
+                        this.micSource = this.audioContext.createMediaStreamSource(this.webcamStream);
+                        if (this.analyser) this.micSource.connect(this.analyser);
+                        if (this.micGain) this.micSource.connect(this.micGain);
+                    }
+                } catch (error) {
+                    this.showStatus('Could not switch microphone: ' + error.message, 'error');
+                }
             }
 
             downloadVideo() {
