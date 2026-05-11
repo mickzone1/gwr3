@@ -17,33 +17,25 @@
             min-height: 100vh;
             color: #ffffff;
             padding: 20px;
-            padding-top: 100px;
             position: relative;
             overflow-x: hidden;
         }
 
-        .logo-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 32px;
-            box-sizing: border-box;
-            z-index: 1000;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        }
-
         .logo-eduhk {
-            height: 62px;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 68px;
             width: auto;
         }
 
         .logo-cca {
-            height: 56px;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 54px;
             width: auto;
         }
 
@@ -51,6 +43,14 @@
             font-size: 0.78rem;
             color: rgba(255,255,255,0.65);
             margin-top: 4px;
+        }
+
+        .contact-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.7;
         }
 
         body::before {
@@ -75,9 +75,10 @@
         }
 
         header {
+            position: relative;
             text-align: center;
             margin-bottom: 30px;
-            padding: 30px 20px;
+            padding: 30px 100px;
             background: rgba(8, 44, 86, 0.8);
             border-radius: 20px;
             border: 2px solid #C19A3B;
@@ -100,10 +101,11 @@
         }
 
         header h1 {
-            font-size: 2.8rem;
+            font-size: 2rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
+            white-space: nowrap;
             margin-bottom: 10px;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             background: linear-gradient(180deg, #ffffff, #e0e0e0);
@@ -1314,12 +1316,10 @@
     </style>
 </head>
 <body>
-    <div class="logo-header">
-        <img src="eduhk.png" alt="EdUHK" class="logo-eduhk">
-        <img src="cca.png" alt="CCA" class="logo-cca">
-    </div>
     <div class="container">
         <header>
+            <img src="eduhk.png" alt="EdUHK" class="logo-eduhk">
+            <img src="cca.png" alt="CCA" class="logo-cca">
             <div class="gwr-badge">Official Participation Tool</div>
             <h1>🎤 Guinness World Records Attempt</h1>
             <p>Most Instagram Videos Featuring Performances of the Same Song</p>
@@ -1447,6 +1447,10 @@
                 </button>
                 <footer class="version-footer" id="versionFooter"></footer>
             </form>
+            <div class="contact-footer">
+                <p>Should you have any enquiries, please contact Ms Kong (2948 8486 / flet@eduhk.hk)</p>
+                <p>如有任何查詢，請聯絡江小姐（2948 8486 / flet@eduhk.hk）</p>
+            </div>
         </section>
 
         <video id="rawCameraFeed" autoplay playsinline muted style="display:none"></video>
