@@ -1609,27 +1609,27 @@
 
         const LYRICS = [
             { words: [
-                { time: 824,   zh: "良", pinyin: "loeng" },
-                { time: 1358,  zh: "師", pinyin: "si"    },
-                { time: 2026,  zh: "啊", pinyin: "aa"    }
+                { time: 1324,  zh: "良", pinyin: "loeng" },
+                { time: 1858,  zh: "師", pinyin: "si"    },
+                { time: 2526,  zh: "啊", pinyin: "aa"    }
             ]},
             { words: [
-                { time: 4264,  zh: "是", pinyin: "si"    },
-                { time: 4751,  zh: "您", pinyin: "nei"   },
-                { time: 5206,  zh: "一", pinyin: "jat"   },
-                { time: 5504,  zh: "顆", pinyin: "fo"    }
+                { time: 4764,  zh: "是", pinyin: "si"    },
+                { time: 5251,  zh: "您", pinyin: "nei"   },
+                { time: 5706,  zh: "一", pinyin: "jat"   },
+                { time: 6004,  zh: "顆", pinyin: "fo"    }
             ]},
             { words: [
-                { time: 7899,  zh: "愛", pinyin: "oi"    },
-                { time: 8402,  zh: "心", pinyin: "sam"   },
-                { time: 9321,  zh: "關", pinyin: "gwaan" },
-                { time: 9980,  zh: "懷", pinyin: "waai"  }
+                { time: 8399,  zh: "愛", pinyin: "oi"    },
+                { time: 8902,  zh: "心", pinyin: "sam"   },
+                { time: 9821,  zh: "關", pinyin: "gwaan" },
+                { time: 10480, zh: "懷", pinyin: "waai"  }
             ]},
             { words: [
-                { time: 11574, zh: "燃", pinyin: "jin"   },
-                { time: 12006, zh: "亮", pinyin: "loeng" },
-                { time: 12532, zh: "了", pinyin: "liu"   },
-                { time: 12933, zh: "我", pinyin: "ngo"   }
+                { time: 12074, zh: "燃", pinyin: "jin"   },
+                { time: 12506, zh: "亮", pinyin: "loeng" },
+                { time: 13032, zh: "了", pinyin: "liu"   },
+                { time: 13433, zh: "我", pinyin: "ngo"   }
             ]}
         ];
 
@@ -1811,6 +1811,12 @@ showConsentModal() {
 
                 this.showStatus('Requesting camera access...', 'info');
 
+                if (!this.audioContext) {
+                    try {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    } catch (e) { /* proceedWithRecording() will retry */ }
+                }
+
                 try {
                     await this.initializeWebcam();
                     this.elements.authSection.style.display = 'none';
@@ -1898,6 +1904,17 @@ showConsentModal() {
                         sel.appendChild(opt);
                     });
                     sel.addEventListener('change', () => this.changeMicSource(sel.value));
+
+                    // Wire up VU meter immediately so user can verify mic before recording
+                    if (this.audioContext && !this.micSource) {
+                        try {
+                            this.micSource = this.audioContext.createMediaStreamSource(this.webcamStream);
+                            this.analyser = this.audioContext.createAnalyser();
+                            this.analyser.fftSize = 256;
+                            this.micSource.connect(this.analyser);
+                            this.startVuMeter();
+                        } catch (e) { /* will be retried in proceedWithRecording() */ }
+                    }
 
                 } catch (error) {
                     throw new Error(`Unable to access camera: ${error.message}`);
