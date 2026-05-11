@@ -569,7 +569,7 @@
         .lyrics-next {
             font-size: 1.3rem;
             text-align: center;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.75);
             font-weight: 400;
             min-height: 2rem;
             transition: all 0.3s ease;
@@ -633,40 +633,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .language-selector {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: rgba(193, 154, 59, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(193, 154, 59, 0.3);
-        }
-
-        .language-option {
-            flex: 1;
-            max-width: 200px;
-            padding: 14px 24px;
-            border: 2px solid rgba(193, 154, 59, 0.4);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            cursor: pointer;
-            text-align: center;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            user-select: none;
-        }
-
-        .language-option.active {
-            background: linear-gradient(135deg, #C19A3B, #d4a942);
-            border-color: #C19A3B;
-            color: #082C56;
-        }
-
-        .status-message {
+.status-message {
             text-align: center;
             padding: 18px 25px;
             border-radius: 12px;
@@ -1385,16 +1352,7 @@
                 </div>
             </div>
 
-            <div class="language-selector">
-                <div class="language-option active" data-lang="chinese" onclick="window.karaokeApp.selectLanguage('chinese')">
-                    中文歌詞
-                </div>
-                <div class="language-option" data-lang="english" onclick="window.karaokeApp.selectLanguage('english')">
-                    Cantonese Pinyin
-                </div>
-            </div>
-
-            <div class="lyrics-container">
+<div class="lyrics-container">
                 <div class="lyrics-main" id="lyricsMain"></div>
                 <div class="lyrics-next" id="lyricsNext"></div>
                 <div class="lyrics-progress">
@@ -1572,21 +1530,12 @@
             AUDIO_FILE_PATH: './assets/in_praise_of_teachers.mp3'
         };
 
-        const LYRICS_CHINESE = [
-            { time: 0, text: "良師啊" },
-            { time: 6750, text: "是您一顆" },
-            { time: 13500, text: "愛心關懷" },
-            { time: 20250, text: "燃亮了我" }
+        const LYRICS = [
+            { time: 1000,  zh: "良師啊",   pinyin: "loeng si aa" },
+            { time: 4000,  zh: "是您一顆", pinyin: "si nei jat fo" },
+            { time: 8000,  zh: "愛心關懷", pinyin: "oi sam gwaan waai" },
+            { time: 12000, zh: "燃亮了我", pinyin: "jin loeng liu ngo" }
         ];
-
-        const LYRICS_ENGLISH = [
-            { time: 0, text: "loeng si aa" },
-            { time: 6750, text: "si nei jat fo" },
-            { time: 13500, text: "oi sam gwaan waai" },
-            { time: 20250, text: "jin loeng liu ngo" }
-        ];
-
-        let LYRICS = LYRICS_CHINESE;
 
         class KaraokeApp {
             constructor() {
@@ -2032,16 +1981,12 @@ showConsentModal() {
                     }
 
                     const lyric = LYRICS[index];
-                    
-                    if (lyric.text) {
-                        this.elements.lyricsMain.textContent = lyric.text;
-                        this.elements.lyricsMain.classList.add('active');
-                        setTimeout(() => {
-                            this.elements.lyricsMain.classList.remove('active');
-                        }, 1500);
-                    } else {
-                        this.elements.lyricsMain.textContent = '';
-                    }
+                    this.elements.lyricsMain.textContent = lyric.zh;
+                    this.elements.lyricsMain.classList.add('active');
+                    this.elements.lyricsNext.textContent = lyric.pinyin;
+                    setTimeout(() => {
+                        this.elements.lyricsMain.classList.remove('active');
+                    }, 1500);
 
                     this.updateLyricsProgress(lyric.time, totalDuration);
 
@@ -2233,22 +2178,6 @@ showConsentModal() {
                 }
             }
 
-            selectLanguage(lang) {
-                this.currentLanguage = lang;
-                
-                const options = document.querySelectorAll('.language-option');
-                options.forEach(opt => opt.classList.remove('active'));
-                document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
-                
-                if (lang === 'chinese') {
-                    LYRICS = LYRICS_CHINESE;
-                } else {
-                    LYRICS = LYRICS_ENGLISH;
-                }
-
-                this.elements.lyricsMain.textContent = '';
-                this.elements.lyricsNext.textContent = '';
-            }
         }
 
         function closeMobileWarning() {
