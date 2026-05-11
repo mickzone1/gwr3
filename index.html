@@ -1001,6 +1001,36 @@
             background: #d4a942;
         }
 
+        /* Mobile Device Warning Modal */
+        .modal-content.mobile-warning {
+            background: linear-gradient(135deg, rgba(8, 44, 86, 0.98), rgba(64, 118, 146, 0.95));
+            border: 3px solid #C19A3B;
+            border-radius: 20px;
+            padding: 35px 30px;
+            max-width: 480px;
+            width: 95%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(193, 154, 59, 0.2);
+        }
+
+        .mobile-warning .modal-header {
+            justify-content: center;
+            border-bottom: none;
+            margin-bottom: 5px;
+            padding-bottom: 0;
+        }
+
+        .mobile-warning .modal-body p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .mobile-warning .modal-footer {
+            margin-top: 25px;
+        }
+
         /* Headphone Warning Modal */
         .headphone-warning {
             max-width: 500px;
@@ -1461,6 +1491,28 @@
                     <h5>個人資料收集聲明 Personal Data Collection Statement</h5>
                     <p>此表格內收集所有個人資料，僅供本計劃之用。 根據《個人資料（私隱）條例》，舉辦單位不會在未經閣下授權的情況下，向第三方提供相關資料作傳銷或其他用途。 您有權要求查閱並更正所提交的個人資料。如果您希望查閱或更正您的個人資料，請聯絡文化與創意藝術學系（電話：2948 8486；電郵：flet@eduhk.hk）。 有關香港教育大學私隱政策聲明，請瀏覽以下網址： http://www.eduhk.hk/main/privacy-policy/</p>
                     <p>All personal data collected on this form will be used solely for the purposes of this programme. In accordance with the Personal Data (Privacy) Ordinance, the organiser will not disclose such information to third parties for direct marketing or other purposes without your consent. You have the right to request access to and correction of the personal data you have submitted. If you wish to access or correct your personal data, please contact the Department of Cultural and Creative Arts (Tel: 2948 8486; Email: flet@eduhk.hk). For The Education University of Hong Kong's privacy policy statement, please visit: http://www.eduhk.hk/main/privacy-policy/</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Device Warning Modal -->
+        <div class="modal" id="mobileWarningModal">
+            <div class="modal-content mobile-warning">
+                <div class="modal-header">
+                    <h2>
+                        <span class="modal-title-zh">⚠️ 重要提示</span>
+                        <span class="modal-title-en">⚠️ Important Notice</span>
+                    </h2>
+                </div>
+                <div class="modal-body">
+                    <div class="warning-icon">💻</div>
+                    <p><strong>此網頁應用程式需要在電腦（桌上型或手提電腦）上使用。在手機或平板裝置上，錄影及混音功能可能無法正常運作。請使用電腦瀏覽器開啟此頁面，以確保最佳體驗。</strong></p>
+                    <p><strong>This web app requires a desktop or laptop computer. On mobile or tablet devices, the recording and audio mixing features may not work correctly. Please open this page on a desktop browser for the best experience.</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" style="width:100%;" onclick="closeMobileWarning()">
+                        我明白，仍然繼續 / I Understand, Continue
+                    </button>
                 </div>
             </div>
         </div>
@@ -2199,7 +2251,16 @@ showConsentModal() {
             }
         }
 
+        function closeMobileWarning() {
+            document.getElementById('mobileWarningModal').classList.remove('active');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+                          || window.innerWidth < 1024;
+            if (isMobile) {
+                document.getElementById('mobileWarningModal').classList.add('active');
+            }
             window.karaokeApp = new KaraokeApp();
         });
 
