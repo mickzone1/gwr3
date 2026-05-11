@@ -591,33 +591,56 @@
             font-size: 2.2rem;
             text-align: center;
             line-height: 1.6;
-            color: #ffffff;
-            transition: all 0.3s ease;
             position: relative;
             z-index: 1;
-            font-weight: 600;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
             min-height: 3.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
             margin-bottom: 15px;
         }
 
-        .lyrics-main.active {
+        .lyric-char {
+            color: rgba(255, 255, 255, 0.35);
+            transition: color 0.15s ease, text-shadow 0.15s ease;
+            display: inline-block;
+        }
+
+        .lyric-char.past {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .lyric-char.current {
             color: #C19A3B;
             font-weight: 800;
-            text-shadow: 0 0 30px rgba(193, 154, 59, 0.8), 0 0 60px rgba(193, 154, 59, 0.4);
-            transform: scale(1.08);
+            text-shadow: 0 0 25px rgba(193, 154, 59, 0.9), 0 0 50px rgba(193, 154, 59, 0.4);
         }
 
         .lyrics-next {
             font-size: 1.3rem;
             text-align: center;
-            color: rgba(255, 255, 255, 0.75);
             font-weight: 400;
             min-height: 2rem;
-            transition: all 0.3s ease;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .lyric-pinyin {
+            color: rgba(255, 255, 255, 0.3);
+            transition: color 0.15s ease;
+        }
+
+        .lyric-pinyin.past {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .lyric-pinyin.current {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
         }
 
         .lyrics-progress {
@@ -1585,10 +1608,29 @@
         };
 
         const LYRICS = [
-            { time: 824,   zh: "良師啊",   pinyin: "loeng si aa" },
-            { time: 4264,  zh: "是您一顆", pinyin: "si nei jat fo" },
-            { time: 7899,  zh: "愛心關懷", pinyin: "oi sam gwaan waai" },
-            { time: 11574, zh: "燃亮了我", pinyin: "jin loeng liu ngo" }
+            { words: [
+                { time: 824,   zh: "良", pinyin: "loeng" },
+                { time: 1358,  zh: "師", pinyin: "si"    },
+                { time: 2026,  zh: "啊", pinyin: "aa"    }
+            ]},
+            { words: [
+                { time: 4264,  zh: "是", pinyin: "si"    },
+                { time: 4751,  zh: "您", pinyin: "nei"   },
+                { time: 5206,  zh: "一", pinyin: "jat"   },
+                { time: 5504,  zh: "顆", pinyin: "fo"    }
+            ]},
+            { words: [
+                { time: 7899,  zh: "愛", pinyin: "oi"    },
+                { time: 8402,  zh: "心", pinyin: "sam"   },
+                { time: 9321,  zh: "關", pinyin: "gwaan" },
+                { time: 9980,  zh: "懷", pinyin: "waai"  }
+            ]},
+            { words: [
+                { time: 11574, zh: "燃", pinyin: "jin"   },
+                { time: 12006, zh: "亮", pinyin: "loeng" },
+                { time: 12532, zh: "了", pinyin: "liu"   },
+                { time: 12933, zh: "我", pinyin: "ngo"   }
+            ]}
         ];
 
         class KaraokeApp {
@@ -2095,33 +2137,48 @@ showConsentModal() {
             }
 
             startLyricsDisplay() {
-                const totalDuration = LYRICS[LYRICS.length - 1].time;
+                const events = [];
+                LYRICS.forEach((phrase, phraseIdx) => {
+                    phrase.words.forEach((word, wordIdx) => {
+                        events.push({ ...word, phraseIdx, wordIdx });
+                    });
+                });
 
-                const displayLyric = (index) => {
-                    if (index >= LYRICS.length) {
-                        this.elements.lyricsMain.textContent = '';
-                        this.elements.lyricsMain.classList.remove('active');
-                        this.elements.lyricsNext.textContent = '';
-                        return;
-                    }
+                const totalDuration = events[events.length - 1].time;
 
-                    const lyric = LYRICS[index];
-                    this.elements.lyricsMain.textContent = lyric.zh;
-                    this.elements.lyricsMain.classList.add('active');
-                    this.elements.lyricsNext.textContent = lyric.pinyin;
-                    setTimeout(() => {
-                        this.elements.lyricsMain.classList.remove('active');
-                    }, 1500);
+                const renderPhrase = (phraseIdx, activeWordIdx) => {
+                    const phrase = LYRICS[phraseIdx];
+                    this.elements.lyricsMain.innerHTML = phrase.words.map((w, i) => {
+                        const cls = i < activeWordIdx ? 'lyric-char past'
+                                  : i === activeWordIdx ? 'lyric-char current'
+                                  : 'lyric-char';
+                        return `<span class="${cls}">${w.zh}</span>`;
+                    }).join('');
+                    this.elements.lyricsNext.innerHTML = phrase.words.map((w, i) => {
+                        const cls = i < activeWordIdx ? 'lyric-pinyin past'
+                                  : i === activeWordIdx ? 'lyric-pinyin current'
+                                  : 'lyric-pinyin';
+                        return `<span class="${cls}">${w.pinyin}</span>`;
+                    }).join('');
+                };
 
-                    this.updateLyricsProgress(lyric.time, totalDuration);
+                const step = (idx) => {
+                    const evt = events[idx];
+                    renderPhrase(evt.phraseIdx, evt.wordIdx);
+                    this.updateLyricsProgress(evt.time, totalDuration);
 
-                    if (index < LYRICS.length - 1) {
-                        const nextDelay = LYRICS[index + 1].time - lyric.time;
-                        this.lyricsTimeout = setTimeout(() => displayLyric(index + 1), nextDelay);
+                    if (idx < events.length - 1) {
+                        const delay = events[idx + 1].time - evt.time;
+                        this.lyricsTimeout = setTimeout(() => step(idx + 1), delay);
+                    } else {
+                        this.lyricsTimeout = setTimeout(() => {
+                            this.elements.lyricsMain.innerHTML = '';
+                            this.elements.lyricsNext.innerHTML = '';
+                        }, 2000);
                     }
                 };
 
-                displayLyric(0);
+                step(0);
             }
 
             updateLyricsProgress(currentTime, totalTime) {
