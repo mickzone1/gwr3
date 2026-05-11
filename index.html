@@ -44,11 +44,30 @@
         .logo-eduhk {
             height: 68px;
             width: auto;
+            max-width: 45vw;
+            object-fit: contain;
         }
 
         .logo-cca {
             height: 44px;
             width: auto;
+            max-width: 30vw;
+            object-fit: contain;
+        }
+
+        @media (max-width: 600px) {
+            .logo-eduhk {
+                height: 40px;
+            }
+            .logo-cca {
+                height: 26px;
+            }
+            .logo-header-inner {
+                padding: 8px 12px;
+            }
+            body {
+                padding-top: 65px;
+            }
         }
 
         .desktop-only-notice {
