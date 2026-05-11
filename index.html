@@ -1343,6 +1343,7 @@
         </section>
 
         <section class="recording-section" id="recordingSection">
+            <video id="rawCameraFeed" autoplay playsinline muted style="display:none"></video>
             <div class="video-container">
                 <video id="webcamPreview" autoplay playsinline muted></video>
                 <div class="countdown-overlay" id="countdownOverlay"></div>
@@ -1549,6 +1550,10 @@
                 this.mediaRecorder = null;
                 this.recordedChunks = [];
                 this.videoBlob = null;
+                this.cropCanvas = null;
+                this.cropCtx = null;
+                this.canvasStream = null;
+                this.rafId = null;
                 this.lyricsTimeout = null;
                 this.recordingStartTime = null;
                 this.timerInterval = null;
@@ -1567,6 +1572,7 @@
                     startBtn: document.getElementById('startBtn'),
                     authSection: document.getElementById('authSection'),
                     recordingSection: document.getElementById('recordingSection'),
+                    rawCameraFeed: document.getElementById('rawCameraFeed'),
                     webcamPreview: document.getElementById('webcamPreview'),
                     countdownOverlay: document.getElementById('countdownOverlay'),
                     recordingIndicator: document.getElementById('recordingIndicator'),
@@ -1717,11 +1723,10 @@ showConsentModal() {
                 try {
                     this.webcamStream = await navigator.mediaDevices.getUserMedia({
                         video: {
-                            width:       { ideal: 1080, min: 720 },
-                            height:      { ideal: 1920, min: 1280 },
-                            frameRate:   { ideal: 30,   min: 24 },
-                            facingMode:  'user',
-                            aspectRatio: { ideal: 9 / 16 }
+                            width:     { ideal: 1920 },
+                            height:    { ideal: 1080 },
+                            frameRate: { ideal: 30, min: 24 },
+                            facingMode: 'user'
                         },
                         audio: {
                             echoCancellation: true,
@@ -1730,12 +1735,56 @@ showConsentModal() {
                         }
                     });
 
-                    this.elements.webcamPreview.srcObject = this.webcamStream;
+                    // Route raw camera to hidden video (canvas source)
+                    this.elements.rawCameraFeed.srcObject = this.webcamStream;
+
                     return new Promise((resolve) => {
-                        this.elements.webcamPreview.onloadedmetadata = () => {
+                        this.elements.rawCameraFeed.onloadedmetadata = () => {
+                            // Off-screen canvas at Instagram Reels dimensions
+                            this.cropCanvas = document.createElement('canvas');
+                            this.cropCanvas.width  = 1080;
+                            this.cropCanvas.height = 1920;
+                            this.cropCtx = this.cropCanvas.getContext('2d');
+
+                            // Canvas stream used for both preview and recording
+                            this.canvasStream = this.cropCanvas.captureStream(30);
+
+                            // Preview shows the cropped canvas stream (mirrored for selfie feel)
+                            this.elements.webcamPreview.srcObject = this.canvasStream;
                             this.elements.webcamPreview.style.transform = 'scaleX(-1)';
-                            this.elements.webcamPreview.style.width = '100%';
+                            this.elements.webcamPreview.style.width  = '100%';
                             this.elements.webcamPreview.style.height = 'auto';
+
+                            // Continuous centre-crop draw loop
+                            const drawFrame = () => {
+                                const vw = this.elements.rawCameraFeed.videoWidth;
+                                const vh = this.elements.rawCameraFeed.videoHeight;
+                                if (vw && vh) {
+                                    const targetAspect = 9 / 16;
+                                    let sx, sy, sw, sh;
+                                    if (vw / vh > targetAspect) {
+                                        // Wider than 9:16 — crop left and right
+                                        sh = vh;
+                                        sw = vh * targetAspect;
+                                        sx = (vw - sw) / 2;
+                                        sy = 0;
+                                    } else {
+                                        // Narrower than 9:16 — crop top and bottom
+                                        sw = vw;
+                                        sh = vw / targetAspect;
+                                        sx = 0;
+                                        sy = (vh - sh) / 2;
+                                    }
+                                    this.cropCtx.drawImage(
+                                        this.elements.rawCameraFeed,
+                                        sx, sy, sw, sh,
+                                        0, 0, 1080, 1920
+                                    );
+                                }
+                                this.rafId = requestAnimationFrame(drawFrame);
+                            };
+                            drawFrame();
+
                             resolve();
                         };
                     });
@@ -1856,9 +1905,9 @@ showConsentModal() {
                 // Connect microphone to recorder
                 micSource.connect(micGain).connect(dest);
                 
-                // Create combined stream with video + mixed audio
+                // Create combined stream: cropped 9:16 canvas video + mixed audio
                 const combinedStream = new MediaStream([
-                    ...this.webcamStream.getVideoTracks(),
+                    ...this.canvasStream.getVideoTracks(),
                     ...dest.stream.getAudioTracks()
                 ]);
 
