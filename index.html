@@ -17,8 +17,40 @@
             min-height: 100vh;
             color: #ffffff;
             padding: 20px;
+            padding-top: 100px;
             position: relative;
             overflow-x: hidden;
+        }
+
+        .logo-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 32px;
+            box-sizing: border-box;
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .logo-eduhk {
+            height: 56px;
+            width: auto;
+        }
+
+        .logo-cca {
+            height: 50px;
+            width: auto;
+        }
+
+        .desktop-only-notice {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.65);
+            margin-top: 4px;
         }
 
         body::before {
@@ -1282,11 +1314,16 @@
     </style>
 </head>
 <body>
+    <div class="logo-header">
+        <img src="eduhk.png" alt="EdUHK" class="logo-eduhk">
+        <img src="cca.png" alt="CCA" class="logo-cca">
+    </div>
     <div class="container">
         <header>
             <div class="gwr-badge">Official Participation Tool</div>
             <h1>🎤 Guinness World Records Attempt</h1>
             <p>Most Instagram Videos Featuring Performances of the Same Song</p>
+            <p class="desktop-only-notice">This application is optimized for desktop browsers only.</p>
         </header>
 
 <section class="auth-form" id="authSection">
@@ -1536,20 +1573,13 @@
         <div class="modal" id="mobileWarningModal">
             <div class="modal-content mobile-warning">
                 <div class="modal-header">
-                    <h2>
-                        <span class="modal-title-zh">⚠️ 重要提示</span>
-                        <span class="modal-title-en">⚠️ Important Notice</span>
-                    </h2>
+                    <h2>⚠️ Desktop Required</h2>
                 </div>
                 <div class="modal-body">
                     <div class="warning-icon">💻</div>
-                    <p><strong>此網頁應用程式需要在電腦（桌上型或手提電腦）上使用。在手機或平板裝置上，錄影及混音功能可能無法正常運作。請使用電腦瀏覽器開啟此頁面，以確保最佳體驗。</strong></p>
-                    <p><strong>This web app requires a desktop or laptop computer. On mobile or tablet devices, the recording and audio mixing features may not work correctly. Please open this page on a desktop browser for the best experience.</strong></p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" style="width:100%;" onclick="closeMobileWarning()">
-                        我明白，仍然繼續 / I Understand, Continue
-                    </button>
+                    <p><strong>This application is designed for desktop browsers only.</strong></p>
+                    <p>Please access this page from a desktop or laptop computer with a webcam and microphone.</p>
+                    <p>此應用程式僅支援桌面電腦瀏覽器。請使用配備攝像頭及麥克風的桌面或手提電腦進行訪問。</p>
                 </div>
             </div>
         </div>
