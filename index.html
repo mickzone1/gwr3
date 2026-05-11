@@ -1717,9 +1717,10 @@ showConsentModal() {
                 try {
                     this.webcamStream = await navigator.mediaDevices.getUserMedia({
                         video: {
-                            width: { ideal: 1080 },
-                            height: { ideal: 1920 },
-                            facingMode: 'user',
+                            width:       { ideal: 1080, min: 720 },
+                            height:      { ideal: 1920, min: 1280 },
+                            frameRate:   { ideal: 30,   min: 24 },
+                            facingMode:  'user',
                             aspectRatio: { ideal: 9 / 16 }
                         },
                         audio: {
