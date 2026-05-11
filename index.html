@@ -1342,8 +1342,9 @@
             </form>
         </section>
 
+        <video id="rawCameraFeed" autoplay playsinline muted style="display:none"></video>
+
         <section class="recording-section" id="recordingSection">
-            <video id="rawCameraFeed" autoplay playsinline muted style="display:none"></video>
             <div class="video-container">
                 <video id="webcamPreview" autoplay playsinline muted></video>
                 <div class="countdown-overlay" id="countdownOverlay"></div>
@@ -1713,6 +1714,7 @@ showConsentModal() {
                     await this.initializeWebcam();
                     this.elements.authSection.style.display = 'none';
                     this.elements.recordingSection.classList.add('active');
+                    this.elements.webcamPreview.play().catch(() => {});
                     this.showStatus('Camera ready! Click "Record" to start.', 'success');
                 } catch (error) {
                     this.showStatus(`Camera error: ${error.message}`, 'error');
@@ -1735,59 +1737,51 @@ showConsentModal() {
                         }
                     });
 
-                    // Route raw camera to hidden video (canvas source)
-                    this.elements.rawCameraFeed.srcObject = this.webcamStream;
-
-                    return new Promise((resolve) => {
-                        this.elements.rawCameraFeed.onloadedmetadata = () => {
-                            // Off-screen canvas at Instagram Reels dimensions
-                            this.cropCanvas = document.createElement('canvas');
-                            this.cropCanvas.width  = 1080;
-                            this.cropCanvas.height = 1920;
-                            this.cropCtx = this.cropCanvas.getContext('2d');
-
-                            // Canvas stream used for both preview and recording
-                            this.canvasStream = this.cropCanvas.captureStream(30);
-
-                            // Preview shows the cropped canvas stream (mirrored for selfie feel)
-                            this.elements.webcamPreview.srcObject = this.canvasStream;
-                            this.elements.webcamPreview.style.transform = 'scaleX(-1)';
-                            this.elements.webcamPreview.style.width  = '100%';
-                            this.elements.webcamPreview.style.height = 'auto';
-
-                            // Continuous centre-crop draw loop
-                            const drawFrame = () => {
-                                const vw = this.elements.rawCameraFeed.videoWidth;
-                                const vh = this.elements.rawCameraFeed.videoHeight;
-                                if (vw && vh) {
-                                    const targetAspect = 9 / 16;
-                                    let sx, sy, sw, sh;
-                                    if (vw / vh > targetAspect) {
-                                        // Wider than 9:16 — crop left and right
-                                        sh = vh;
-                                        sw = vh * targetAspect;
-                                        sx = (vw - sw) / 2;
-                                        sy = 0;
-                                    } else {
-                                        // Narrower than 9:16 — crop top and bottom
-                                        sw = vw;
-                                        sh = vw / targetAspect;
-                                        sx = 0;
-                                        sy = (vh - sh) / 2;
-                                    }
-                                    this.cropCtx.drawImage(
-                                        this.elements.rawCameraFeed,
-                                        sx, sy, sw, sh,
-                                        0, 0, 1080, 1920
-                                    );
-                                }
-                                this.rafId = requestAnimationFrame(drawFrame);
-                            };
-                            drawFrame();
-
-                            resolve();
-                        };
+                    // Wait for raw feed to be ready and playing (canplay = first frame available)
+                    await new Promise((resolve, reject) => {
+                        this.elements.rawCameraFeed.oncanplay = resolve;
+                        this.elements.rawCameraFeed.onerror  = () => reject(new Error('Raw feed failed'));
+                        this.elements.rawCameraFeed.srcObject = this.webcamStream;
+                        this.elements.rawCameraFeed.play().catch(reject);
                     });
+
+                    // Off-screen canvas at Instagram Reels dimensions
+                    this.cropCanvas        = document.createElement('canvas');
+                    this.cropCanvas.width  = 1080;
+                    this.cropCanvas.height = 1920;
+                    this.cropCtx           = this.cropCanvas.getContext('2d');
+                    this.canvasStream      = this.cropCanvas.captureStream(30);
+
+                    // Wire preview to canvas stream (mirrored for selfie feel)
+                    this.elements.webcamPreview.srcObject       = this.canvasStream;
+                    this.elements.webcamPreview.style.transform = 'scaleX(-1)';
+                    this.elements.webcamPreview.style.width     = '100%';
+                    this.elements.webcamPreview.style.height    = 'auto';
+
+                    // Continuous centre-crop draw loop
+                    const drawFrame = () => {
+                        const vw = this.elements.rawCameraFeed.videoWidth;
+                        const vh = this.elements.rawCameraFeed.videoHeight;
+                        if (vw && vh) {
+                            const targetAspect = 9 / 16;
+                            let sx, sy, sw, sh;
+                            if (vw / vh > targetAspect) {
+                                sh = vh; sw = vh * targetAspect;
+                                sx = (vw - sw) / 2; sy = 0;
+                            } else {
+                                sw = vw; sh = vw / targetAspect;
+                                sx = 0; sy = (vh - sh) / 2;
+                            }
+                            this.cropCtx.drawImage(
+                                this.elements.rawCameraFeed,
+                                sx, sy, sw, sh,
+                                0, 0, 1080, 1920
+                            );
+                        }
+                        this.rafId = requestAnimationFrame(drawFrame);
+                    };
+                    drawFrame();
+
                 } catch (error) {
                     throw new Error(`Unable to access camera: ${error.message}`);
                 }
