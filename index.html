@@ -1983,7 +1983,7 @@ showConsentModal() {
 
                 await this.runCountdown();
                 this.startMediaRecording();
-                this.playBackgroundAudio();
+                await this.playBackgroundAudio();
                 this.startLyricsDisplay();
                 this.startRecordingTimer();
                 
@@ -2159,7 +2159,7 @@ showConsentModal() {
                     
                     const playPromise = this.elements.backgroundAudio.play();
                     if (playPromise !== undefined) {
-                        playPromise.catch((error) => {
+                        await playPromise.catch((error) => {
                             console.error('Audio playback failed:', error);
                             this.showStatus('Audio playback failed. Please allow autoplay and try again.', 'error');
                         });
