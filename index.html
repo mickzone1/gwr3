@@ -1421,6 +1421,14 @@
             height: 100%;
             border: none;
         }
+
+        .zh-text {
+            display: block;
+            font-size: 0.85em;
+            opacity: 0.82;
+            font-weight: normal;
+            margin-top: 2px;
+        }
     </style>
 </head>
 <body>
@@ -1432,17 +1440,17 @@
     </div>
     <div class="container">
         <header>
-            <div class="gwr-badge">Official Participation Tool</div>
-            <h1>🎤 Guinness World Records Attempt</h1>
-            <p>Most Instagram Videos Featuring Performances of the Same Song</p>
-            <p class="desktop-only-notice">This application is optimized for desktop browsers only.</p>
+            <div class="gwr-badge">Official Participation Tool<span class="zh-text">官方參與工具</span></div>
+            <h1>🎤 Guinness World Records Attempt<span class="zh-text">🎤 健力士世界紀錄挑戰</span></h1>
+            <p>Most Instagram Videos Featuring Performances of the Same Song<span class="zh-text">最多以Instagram影片展示同一首歌曲演唱</span></p>
+            <p class="desktop-only-notice">This application is optimized for desktop browsers only.<span class="zh-text">此應用程式僅適用於桌面瀏覽器。</span></p>
         </header>
 
         <section class="steps-section">
-            <h2>5 Easy Steps to Be Part of the Attempt!</h2>
+            <h2>5 Easy Steps to Be Part of the Attempt!<span class="zh-text">5個簡單步驟，立即參與挑戰！</span></h2>
             <ol class="steps-list">
                 <li class="step-item">
-                    <div class="step-title">1️⃣ Watch the Sample</div>
+                    <div class="step-title">1️⃣ Watch the Sample<span class="zh-text">1️⃣ 觀看示範</span></div>
                     <div class="step-video-wrapper">
                         <iframe
                             src="https://www.youtube.com/embed/rKqQoyBjEZg"
@@ -1453,40 +1461,40 @@
                     </div>
                 </li>
                 <li class="step-item">
-                    <div class="step-title">2️⃣ Sign Up</div>
+                    <div class="step-title">2️⃣ Sign Up<span class="zh-text">2️⃣ 報名登記</span></div>
                     <div class="step-body">
-                        👉 Complete the Participant Registration form below<br>
-                        👉 Click <strong>"NEXT"</strong> when ready
+                        👉 Complete the Participant Registration form below<span class="zh-text">👉 填寫以下參加者登記表</span>
+                        👉 Click <strong>"NEXT"</strong> when ready<span class="zh-text">👉 準備好後點擊「下一步」</span>
                     </div>
-                    <div class="step-note">(For EdUHK staff and students, please use your EdUHK email to join the lucky draw)</div>
+                    <div class="step-note">(For EdUHK staff and students, please use your EdUHK email to join the lucky draw)<span class="zh-text">（教大教職員及學生請使用教大電郵參加抽獎）</span></div>
                 </li>
                 <li class="step-item">
-                    <div class="step-title">3️⃣ Record</div>
+                    <div class="step-title">3️⃣ Record<span class="zh-text">3️⃣ 錄製</span></div>
                     <div class="step-body">
-                        👉 Click <strong>"RECORD"</strong> and sing the designated line of the song
-                    </div>
-                </li>
-                <li class="step-item">
-                    <div class="step-title">4️⃣ Upload</div>
-                    <div class="step-body">
-                        👉 Click <strong>"UPLOAD TO SHAREPOINT"</strong> to submit your video
+                        👉 Click <strong>"RECORD"</strong> and sing the designated line of the song<span class="zh-text">👉 點擊「錄製」並演唱指定歌曲片段</span>
                     </div>
                 </li>
                 <li class="step-item">
-                    <div class="step-title">5️⃣ Authorise</div>
+                    <div class="step-title">4️⃣ Upload<span class="zh-text">4️⃣ 上傳</span></div>
                     <div class="step-body">
-                        👉 Agree to allow EdUHK to upload your video to a public Instagram account on the challenge day
+                        👉 Click <strong>"UPLOAD TO SHAREPOINT"</strong> to submit your video<span class="zh-text">👉 點擊「上傳至SharePoint」提交影片</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-title">5️⃣ Authorise<span class="zh-text">5️⃣ 授權</span></div>
+                    <div class="step-body">
+                        👉 Agree to allow EdUHK to upload your video to a public Instagram account on the challenge day<span class="zh-text">👉 同意授權教大於挑戰當天將您的影片上傳至公開Instagram賬戶</span>
                     </div>
                 </li>
             </ol>
         </section>
 
 <section class="auth-form" id="authSection">
-            <h2>🏆 Participant Registration</h2>
+            <h2>🏆 Participant Registration<span class="zh-text">🏆 參加者登記</span></h2>
             <form id="userForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="familyName">Family Name</label>
+                        <label for="familyName">Family Name<span class="zh-text">姓氏</span></label>
                         <input 
                             type="text" 
                             id="familyName" 
@@ -1496,7 +1504,7 @@
                         >
                     </div>
                     <div class="form-group">
-                        <label for="firstName">First Name</label>
+                        <label for="firstName">First Name<span class="zh-text">名字</span></label>
                         <input 
                             type="text" 
                             id="firstName" 
@@ -1507,7 +1515,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="userEmail">Email Address</label>
+                    <label for="userEmail">Email Address<span class="zh-text">電郵地址</span></label>
                     <input 
                         type="email" 
                         id="userEmail" 
@@ -1516,7 +1524,7 @@
                     >
                 </div>
                 <div class="form-group">
-                    <label for="whatsappTel">WhatsApp Number</label>
+                    <label for="whatsappTel">WhatsApp Number<span class="zh-text">WhatsApp號碼</span></label>
                     <div class="phone-group">
                         <select id="countryCode" required>
                             <option value="">🌍 Code</option>
@@ -1598,7 +1606,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary" id="startBtn" disabled>
-                    Next
+                    Next<span class="zh-text">下一步</span>
                 </button>
             </form>
             <div class="contact-footer">
@@ -1612,7 +1620,7 @@
 
         <section class="recording-section" id="recordingSection">
             <div class="mic-select-row">
-                <label for="micSourceSelect">🎙 Microphone:</label>
+                <label for="micSourceSelect">🎙 Microphone:<span class="zh-text">🎙 麥克風：</span></label>
                 <select id="micSourceSelect"></select>
             </div>
             <div class="video-container">
@@ -1637,16 +1645,16 @@
 
             <div class="controls">
                 <button class="btn btn-primary" id="recordBtn">
-                    🎬 Record
+                    🎬 Record<span class="zh-text">🎬 錄製</span>
                 </button>
                 <button class="btn btn-stop" id="stopBtn" disabled>
-                    ⏹ Stop
+                    ⏹ Stop<span class="zh-text">⏹ 停止</span>
                 </button>
                 <button class="btn btn-success" id="downloadBtn" disabled>
-                    ⬇ Download Video
+                    ⬇ Download Video<span class="zh-text">⬇ 下載影片</span>
                 </button>
                 <button class="btn btn-drive" id="uploadBtn" disabled>
-                    ☁ Upload to SharePoint
+                    ☁ Upload to SharePoint<span class="zh-text">☁ 上傳至SharePoint</span>
                 </button>
             </div>
 
@@ -1920,7 +1928,7 @@
 
 showConsentModal() {
                 if (!this.videoBlob) {
-                    this.showStatus('No video available. Please record first.', 'error');
+                    this.showStatus('No video available. Please record first.<br><span class="zh-text">沒有影片。請先錄製。</span>', 'error');
                     return;
                 }
 
@@ -2001,7 +2009,7 @@ showConsentModal() {
                 this.countryCode = this.elements.countryCode.value;
                 this.whatsappTel = this.elements.whatsappTel.value.trim().replace(/\D/g, '');
 
-                this.showStatus('Requesting camera access...', 'info');
+                this.showStatus('Requesting camera access...<br><span class="zh-text">正在請求相機權限...</span>', 'info');
 
                 if (!this.audioContext) {
                     try {
@@ -2014,9 +2022,9 @@ showConsentModal() {
                     this.elements.authSection.style.display = 'none';
                     this.elements.recordingSection.classList.add('active');
                     this.elements.webcamPreview.play().catch(() => {});
-                    this.showStatus('Camera ready! Click "Record" to start.', 'success');
+                    this.showStatus('Camera ready! Click "Record" to start.<br><span class="zh-text">相機已就緒！點擊「錄製」開始。</span>', 'success');
                 } catch (error) {
-                    this.showStatus(`Camera error: ${error.message}`, 'error');
+                    this.showStatus(`Camera error: ${error.message}<br><span class="zh-text">相機錯誤：${error.message}</span>`, 'error');
                 }
             }
 
@@ -2123,7 +2131,7 @@ showConsentModal() {
                     try {
                         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     } catch (error) {
-                        this.showStatus('Audio not supported on this device. Please try Safari on iOS 14.3+ or Chrome on Android.', 'error');
+                        this.showStatus('Audio not supported on this device. Please try Safari on iOS 14.3+ or Chrome on Android.<br><span class="zh-text">此裝置不支援音訊。請使用iOS 14.3+的Safari或Android的Chrome。</span>', 'error');
                         return;
                     }
                 }
@@ -2148,7 +2156,7 @@ showConsentModal() {
                 try {
                     await this.startRecording();
                 } catch (error) {
-                    this.showStatus('Could not start recording: ' + error.message, 'error');
+                    this.showStatus('Could not start recording: ' + error.message + '<br><span class="zh-text">無法開始錄製：' + error.message + '</span>', 'error');
                     this.elements.recordBtn.disabled = false;
                     this.elements.stopBtn.disabled = true;
                 }
@@ -2165,7 +2173,7 @@ showConsentModal() {
 
                 // Ensure audio is loaded before recording
                 if (this.elements.backgroundAudio.readyState < 2) {
-                    this.showStatus('Loading audio...', 'info');
+                    this.showStatus('Loading audio...<br><span class="zh-text">正在載入音訊...</span>', 'info');
                     await new Promise((resolve) => {
                         this.elements.backgroundAudio.addEventListener('canplay', resolve, { once: true });
                     });
@@ -2177,7 +2185,7 @@ showConsentModal() {
                 this.startLyricsDisplay();
                 this.startRecordingTimer();
                 
-                this.showStatus('Recording in progress...', 'info');
+                this.showStatus('Recording in progress...<br><span class="zh-text">錄製中...</span>', 'info');
             }
 
             runCountdown() {
@@ -2282,9 +2290,9 @@ showConsentModal() {
                             this.elements.uploadBtn.disabled = false;
                             this.elements.lyricsMain.textContent = '';
                             this.elements.lyricsNext.textContent = '';
-                            this.showStatus('🎉 Performance recorded! Download or upload to SharePoint.', 'success');
+                            this.showStatus('🎉 Performance recorded! Download or upload to SharePoint.<br><span class="zh-text">🎉 錄製完成！請下載或上傳至SharePoint。</span>', 'success');
                         } else {
-                            this.showStatus('No video data recorded. Please try again.', 'error');
+                            this.showStatus('No video data recorded. Please try again.<br><span class="zh-text">未能錄製影片。請重試。</span>', 'error');
                             this.elements.lyricsMain.textContent = '';
                             this.elements.lyricsNext.textContent = '';
                         }
@@ -2293,7 +2301,7 @@ showConsentModal() {
 
                 this.mediaRecorder.onerror = (event) => {
                     console.error('MediaRecorder error:', event.error);
-                    this.showStatus('Recording error: ' + event.error.name, 'error');
+                    this.showStatus('Recording error: ' + event.error.name + '<br><span class="zh-text">錄製錯誤：' + event.error.name + '</span>', 'error');
                 };
 
                 this.mediaRecorder.start(250);
@@ -2351,7 +2359,7 @@ showConsentModal() {
                     if (playPromise !== undefined) {
                         playPromise.catch((error) => {
                             console.error('Audio playback failed:', error);
-                            this.showStatus('Audio playback failed. Please allow autoplay and try again.', 'error');
+                            this.showStatus('Audio playback failed. Please allow autoplay and try again.<br><span class="zh-text">音訊播放失敗。請允許自動播放並重試。</span>', 'error');
                         });
                     }
                 } catch (error) {
@@ -2506,13 +2514,13 @@ showConsentModal() {
                         if (this.micGain) this.micSource.connect(this.micGain);
                     }
                 } catch (error) {
-                    this.showStatus('Could not switch microphone: ' + error.message, 'error');
+                    this.showStatus('Could not switch microphone: ' + error.message + '<br><span class="zh-text">無法切換麥克風：' + error.message + '</span>', 'error');
                 }
             }
 
             downloadVideo() {
                 if (!this.videoBlob) {
-                    this.showStatus('No video available. Please record first.', 'error');
+                    this.showStatus('No video available. Please record first.<br><span class="zh-text">沒有影片。請先錄製。</span>', 'error');
                     return;
                 }
 
@@ -2536,10 +2544,10 @@ showConsentModal() {
                         URL.revokeObjectURL(url);
                     }, 100);
 
-                    this.showStatus(`Video downloaded as ${filename}`, 'success');
+                    this.showStatus(`Video downloaded as ${filename}<br><span class="zh-text">影片已下載：${filename}</span>`, 'success');
                 } catch (error) {
                     console.error('Download error:', error);
-                    this.showStatus('Download failed: ' + error.message, 'error');
+                    this.showStatus('Download failed: ' + error.message + '<br><span class="zh-text">下載失敗：' + error.message + '</span>', 'error');
                 }
             }
 
@@ -2567,7 +2575,7 @@ showConsentModal() {
             async uploadToSharePoint() {
                 if (!this.videoBlob) return;
 
-                this.showStatus('<span class="loading-spinner"></span>Uploading to OneDrive/SharePoint...', 'info');
+                this.showStatus('<span class="loading-spinner"></span>Uploading to OneDrive/SharePoint...<br><span class="zh-text">正在上傳至OneDrive/SharePoint...</span>', 'info');
                 this.hideRetryButton();
 
                 const extension = this.getFileExtension();
@@ -2603,7 +2611,7 @@ showConsentModal() {
                     const result = await response.json();
 
                     if (result.success) {
-                        this.showStatus('✅ Upload successful! Video saved to SharePoint.', 'success');
+                        this.showStatus('✅ Upload successful! Video saved to SharePoint.<br><span class="zh-text">✅ 上傳成功！影片已儲存至SharePoint。</span>', 'success');
                     } else {
                         throw new Error(result.error || 'Upload failed');
                     }
