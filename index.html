@@ -2021,6 +2021,7 @@ showConsentModal() {
                     await this.initializeWebcam();
                     this.elements.authSection.style.display = 'none';
                     this.elements.recordingSection.classList.add('active');
+                    this.elements.recordingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     this.elements.webcamPreview.play().catch(() => {});
                     this.showStatus('Camera ready! Click "Record" to start.<br><span class="zh-text">相機已就緒！點擊「錄製」開始。</span>', 'success');
                 } catch (error) {
