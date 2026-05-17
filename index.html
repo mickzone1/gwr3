@@ -2619,9 +2619,9 @@ showConsentModal() {
                     clearTimeout(timeoutId);
                     console.error('Upload error:', error);
                     if (error.name === 'AbortError') {
-                        this.showStatus('Upload timed out. Please check your connection and try again.', 'error');
+                        this.showStatus('Upload timed out. Please check your connection and try again.<br><span class="zh-text">上傳逾時。請檢查網絡連接並重試。</span>', 'error');
                     } else {
-                        this.showStatus(`Upload error: ${error.message}`, 'error');
+                        this.showStatus(`Upload error: ${error.message}<br><span class="zh-text">上傳錯誤：${error.message}</span>`, 'error');
                     }
                     this.showRetryButton();
                 }
