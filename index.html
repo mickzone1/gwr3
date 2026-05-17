@@ -1342,6 +1342,66 @@
             letter-spacing: 1px;
             user-select: none;
         }
+
+        .steps-section {
+            background: linear-gradient(135deg, rgba(8, 44, 86, 0.9), rgba(64, 118, 146, 0.8));
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(193, 154, 59, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .steps-section h2 {
+            color: #C19A3B;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .steps-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .step-item {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 16px 20px;
+            border-left: 4px solid #C19A3B;
+        }
+
+        .step-title {
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .step-body {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .step-body a {
+            color: #f4c84a;
+            text-decoration: underline;
+        }
+
+        .step-note {
+            color: rgba(193, 154, 59, 0.9);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -1358,6 +1418,44 @@
             <p>Most Instagram Videos Featuring Performances of the Same Song</p>
             <p class="desktop-only-notice">This application is optimized for desktop browsers only.</p>
         </header>
+
+        <section class="steps-section">
+            <h2>5 Easy Steps to Be Part of the Attempt!</h2>
+            <ol class="steps-list">
+                <li class="step-item">
+                    <div class="step-title">1️⃣ Watch the Sample</div>
+                    <div class="step-body">
+                        👉 <a href="https://www.youtube.com/shorts/rKqQoyBjEZg" target="_blank" rel="noopener noreferrer">View the demo video here</a>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-title">2️⃣ Sign Up</div>
+                    <div class="step-body">
+                        👉 Complete the Participant Registration form below<br>
+                        👉 Click <strong>"NEXT"</strong> when ready
+                    </div>
+                    <div class="step-note">(For EdUHK staff and students, please use your EdUHK email to join the lucky draw)</div>
+                </li>
+                <li class="step-item">
+                    <div class="step-title">3️⃣ Record</div>
+                    <div class="step-body">
+                        👉 Click <strong>"RECORD"</strong> and sing the designated line of the song
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-title">4️⃣ Upload</div>
+                    <div class="step-body">
+                        👉 Click <strong>"UPLOAD TO SHAREPOINT"</strong> to submit your video
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-title">5️⃣ Authorise</div>
+                    <div class="step-body">
+                        👉 Agree to allow EdUHK to upload your video to a public Instagram account on the challenge day
+                    </div>
+                </li>
+            </ol>
+        </section>
 
 <section class="auth-form" id="authSection">
             <h2>🏆 Participant Registration</h2>
