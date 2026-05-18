@@ -1530,7 +1530,7 @@
                 <li class="step-item">
                     <div class="step-title">4️⃣ Upload <span class="zh-text">上傳</span></div>
                     <div class="step-body">
-                        👉 Click <strong>"UPLOAD TO SHAREPOINT"</strong> to submit your video<span class="zh-text">點擊「上傳至SharePoint」提交影片</span>
+                        👉 Click <strong>"SUBMIT YOUR VIDEO"</strong> to submit your video<span class="zh-text">點擊「提交您的影片」</span>
                     </div>
                 </li>
                 <li class="step-item">
@@ -1717,7 +1717,7 @@
                     ⬇ Download Video<span class="zh-text">下載影片</span>
                 </button>
                 <button class="btn btn-drive" id="uploadBtn" disabled>
-                    ☁ Upload to SharePoint<span class="zh-text">上傳至SharePoint</span>
+                    ☁ Submit Your Video<span class="zh-text">提交您的影片</span>
                 </button>
             </div>
 
@@ -2354,7 +2354,7 @@ showConsentModal() {
                             this.elements.uploadBtn.disabled = false;
                             this.elements.lyricsMain.textContent = '';
                             this.elements.lyricsNext.textContent = '';
-                            this.showStatus('🎉 Performance recorded! Download or upload to SharePoint.<br><span class="zh-text">🎉 錄製完成！請下載或上傳至SharePoint。</span>', 'success');
+                            this.showStatus('🎉 Performance recorded! Download or submit your video.<br><span class="zh-text">🎉 錄製完成！請下載或提交您的影片。</span>', 'success');
                         } else {
                             this.showStatus('No video data recorded. Please try again.<br><span class="zh-text">未能錄製影片。請重試。</span>', 'error');
                             this.elements.lyricsMain.textContent = '';
@@ -2639,7 +2639,7 @@ showConsentModal() {
             async uploadToSharePoint() {
                 if (!this.videoBlob) return;
 
-                this.showStatus('<span class="loading-spinner"></span>Uploading to OneDrive/SharePoint...<br><span class="zh-text">正在上傳至OneDrive/SharePoint...</span>', 'info');
+                this.showStatus('<span class="loading-spinner"></span>Submitting your video...<br><span class="zh-text">正在提交您的影片...</span>', 'info');
                 this.hideRetryButton();
 
                 const extension = this.getFileExtension();
@@ -2675,7 +2675,7 @@ showConsentModal() {
                     const result = await response.json();
 
                     if (result.success) {
-                        this.showStatus('✅ Upload successful! Video saved to SharePoint.<br><span class="zh-text">✅ 上傳成功！影片已儲存至SharePoint。</span>', 'success');
+                        this.showStatus('✅ Submission successful!<br><span class="zh-text">✅ 提交成功！</span>', 'success');
                     } else {
                         throw new Error(result.error || 'Upload failed');
                     }
