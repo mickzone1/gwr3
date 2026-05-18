@@ -1492,6 +1492,24 @@
         .inline-terms h4:first-child { margin-top: 0; }
 
         .inline-terms p { margin-bottom: 6px; }
+
+        .record-success-modal {
+            max-width: 480px;
+            text-align: center;
+        }
+        .record-success-modal .success-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+        .record-success-modal .modal-body p {
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.6;
+        }
+        .record-success-modal .highlight {
+            color: #f4c84a;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -1862,6 +1880,28 @@
                         我知道了，繼續 / I Understand, Continue
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recording Success Modal -->
+    <div class="modal" id="recordSuccessModal">
+        <div class="modal-content record-success-modal">
+            <div class="modal-header">
+                <h2>🎉 Recording Successful! / 錄製成功！</h2>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">🎬</div>
+                <p>You have successfully recorded your video!<br>您已成功錄製影片！</p>
+                <p>📥 You may <span class="highlight">Download Video</span> as your personal record.<br>
+                   📥 您可下載影片作為個人紀錄。</p>
+                <p>☁ Remember to click <span class="highlight">"Submit Your Video"</span> to complete the challenge!<br>
+                   ☁ 記得點擊「提交您的影片」以完成挑戰！</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeRecordSuccessModal()">
+                    OK, Got it! / 好的，知道了！
+                </button>
             </div>
         </div>
     </div>
@@ -2364,6 +2404,7 @@ showConsentModal() {
                             this.elements.uploadBtn.disabled = false;
                             this.elements.lyricsMain.textContent = '';
                             this.elements.lyricsNext.textContent = '';
+                            document.getElementById('recordSuccessModal').classList.add('active');
                             this.showStatus('🎉 Performance recorded! Download or submit your video.<br><span class="zh-text">🎉 錄製完成！請下載或提交您的影片。</span>', 'success');
                         } else {
                             this.showStatus('No video data recorded. Please try again.<br><span class="zh-text">未能錄製影片。請重試。</span>', 'error');
@@ -2735,6 +2776,10 @@ showConsentModal() {
 
         function closeMobileWarning() {
             document.getElementById('mobileWarningModal').classList.remove('active');
+        }
+
+        function closeRecordSuccessModal() {
+            document.getElementById('recordSuccessModal').classList.remove('active');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
