@@ -1510,6 +1510,22 @@
             color: #f4c84a;
             font-weight: 700;
         }
+
+        .recording-notice {
+            background: rgba(193, 154, 59, 0.15);
+            border: 1px solid rgba(193, 154, 59, 0.5);
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .recording-notice strong {
+            color: #f4c84a;
+        }
     </style>
 </head>
 <body>
@@ -1552,7 +1568,9 @@
                 <li class="step-item">
                     <div class="step-title">3️⃣ Record <span class="zh-text">錄製</span></div>
                     <div class="step-body">
-                        👉 Click <strong>"RECORD"</strong> and sing the designated line of the song<span class="zh-text">點擊「錄製」並演唱指定歌曲片段</span>
+                        👉 Click <strong>"RECORD"</strong> and sing the designated line of the song<span class="zh-text">點擊「錄製」並演唱指定歌曲片段</span><br>
+                        📷 Make sure your <strong>face is clearly visible</strong> on camera<span class="zh-text">請確保鏡頭中您的<strong>臉部清晰可見</strong></span><br>
+                        🎤 Sing with <strong>your own voice</strong> (no playback or lip-sync)<span class="zh-text">請以<strong>自己的聲音</strong>演唱（不可使用錄音或對嘴）</span>
                     </div>
                 </li>
                 <li class="step-item">
@@ -1732,6 +1750,11 @@
                 <div class="lyrics-progress">
                     <div class="lyrics-progress-bar" id="lyricsProgressBar"></div>
                 </div>
+            </div>
+
+            <div class="recording-notice">
+                📷 <strong>Face must be clearly visible</strong> on camera &nbsp;|&nbsp; 🎤 Sing with <strong>your own voice</strong> (no playback)<br>
+                📷 鏡頭中<strong>臉部須清晰可見</strong> &nbsp;|&nbsp; 🎤 須以<strong>自己聲音</strong>演唱（不可對嘴）
             </div>
 
             <div class="controls">
